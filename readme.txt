@@ -9,7 +9,7 @@ Requires PHP: 5.6.30
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
-Display Kartra-built pages via WordPress. Supports embed (iframe) *AND*
+Display Kartra-built pages via WordPress. Supports embed ("iframe") *AND*
 download-to-server modes.
 
 == Description ==
@@ -39,18 +39,20 @@ injected into an "ultra-lean" page specifically tuned for Kartra with less
 overhead than Blank Slate.
 
 Kartra's page loader embed script will load the Kartra page content from
-Kartra's CloudFlare servers via an iframe and set the page title and other
+Kartra's CloudFlare servers via an "iframe" and set the page title and other
 attributes.
 
 In "cache" mode, the current Kartra page content will be downloaded and
 stored in WordPress each time you click on the Apply button. This page
 content will then be served directly from your WordPress site without the
-need for an iframe.
+need for an "iframe".
 
 == Installation ==
 
 1. Upload the plugin files to the "/wp-content/plugins/kcsg-kartra-pages" directory, or install the plugin via the WordPress plugins screen.
 1. Activate the plugin via the WordPress plugins screen.
+
+See the "Operation" section for operating instructions.
 
 == Operation ==
 
@@ -79,16 +81,26 @@ on numerous static and dynamic factors.
 
 Since your content is being served directly from your WordPress domain, it
 will definitely be attributed to your WordPress domain by search engines.
-With the page loader embed script, it's being served by an iframe with your
-Kartra domain, and therefore might be attributed to your Kartra domain
-instead.
+(In script mode, your content appears in an "iframe" with your Kartra domain,
+and therefore might be attributed to your Kartra domain instead.)
 
 Since cache-mode content is regular HTML and doesn't involve a
-JavaScript-generated iFrame, search engines that don't understand
+JavaScript-generated iframe, search engines that don't understand
 JavaScript will still be able to index your content.
 
+While script mode uses the Kartra brand tab/site icon, cache mode uses
+your WordPress-configured site icon.
+
 Page-loading performance might be better (or the same, or worse), depending
-on numerous static and dynamic factors.
+on numerous static and dynamic factors. Cache mode elininates one round-trip
+network request associated with requesting and retrieving the page loader
+embed script (since it's not used in this mode), but this could potentially
+be overshadowed by other factors.
+
+Important note: Per Kartra, due to cross-domain cookie restrictions, some
+tracking might not be accurate in download-to-server configurations
+(including KKP's cache mode). On pages where this is a concern, please use
+script mode instead.
 
 = How does KCSG Kartra Pages compare to Aaron Reimann's Blank Slate? =
 
@@ -101,6 +113,11 @@ specifically tuned for the way Kartra's page loader embed script works.
 KKP's "cache" mode incorporates a Kartra-specific process for downloading
 Kartra-built pages and displaying them directly from WordPress. Blank Slate
 does not, because it's a more general-purpose plugin.
+
+== Screenshots ==
+
+1. This screenshot shows the selection of the KCSG Kartra Page page template
+and the KCSG Kartra Pages control section.
 
 == Changelog ==
 
