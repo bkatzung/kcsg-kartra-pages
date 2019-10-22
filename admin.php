@@ -93,21 +93,21 @@ HTML;
 
 // Return rendering for template page modes
 function kcsg_kp_page_modes( $mode ) {
-    $opt_blank = esc_html__( 'Blank WordPress', 'kcsg-kartra-pages' );
-    $opt_script = esc_html__( 'Script', 'kcsg-kartra-pages' );
-    $opt_cache = esc_html__( 'Cache (Apply to refresh)', 'kcsg-kartra-pages' );
+    $opt_blank = esc_html__( 'WordPress', 'kcsg-kartra-pages' );
+    $opt_script = esc_html__( 'Kartra Live', 'kcsg-kartra-pages' );
+    $opt_cache = esc_html__( 'Kartra Download (Apply to refresh)', 'kcsg-kartra-pages' );
 
     $blank_c = $script_c = $cache_c = '';
     switch ( $mode ) {
-    case 'blank':
+    case 'blank':	# WordPress
 	$blank_c = ' checked';
 	break;
 
-    case 'cache':
+    case 'cache':	# Kartra Download
 	$cache_c = ' checked';
 	break;
 
-    case 'script':
+    case 'script':	# Kartra Live
 	$script_c = ' checked';
 	break;
     }
@@ -158,7 +158,7 @@ function kcsg_kp_ajax_set() {
 
     if ( empty( $new_source ) ) {
 	if ( 'blank' != $new_mode ) {
-	    // We need a source for script or cache mode
+	    // We need a source for script/live or cache/download mode
 	    kcsg_kp_return_fail( __( 'Please supply a source', 'kcsg-kartra-pages' ) );
 	} else {
 	    $new_url = '';
@@ -174,8 +174,7 @@ function kcsg_kp_ajax_set() {
     if ( 'cache' == $new_mode ) {
 	$new_cache = kcsg_kp_fetch_page( $new_url );
 	if ( empty( $new_cache ) ) {
-	    ## HERE ##
-	    kcsg_kp_return_fail( "No contents found at $new_url" );
+	    kcsg_kp_return_fail( sprintf( __('No contents found at %s', 'kcsg-kartra-pages' ), $new_url ) );
 	}
 	update_post_meta( $post_id, 'kcsg_kp_cache', kcsg_kp_meta_encode( $new_cache ) );
     } else {
