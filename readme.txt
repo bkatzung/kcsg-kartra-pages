@@ -19,33 +19,87 @@ specifically designed for displaying Kartra-built pages via your WordPress
 site.
 
 The template operates in one of three modes chosen from controls provided
-in the page editor.
+in the page editor:
 
-The template defaults to "WordPress" mode, which just displays the native
-WordPress content on a minimal page. This mode is equivalent to the
-Blank Slate plugin by Aaron Reimann et al.
+= "WordPress" Mode =
 
-In this mode, you could use it just like Blank Slate by pasting the page
-loader embed script supplied by Kartra into a custom HTML section.
+In WordPress mode (the default), KKP just displays the native WordPress
+content on a minimal page. This mode is equivalent to the Blank Slate plugin
+by Aaron Reimann et al.
 
-Alternatively, you can just paste the page loader embed script (or its source
-URL) into the source setting for the template. This skips the need for the
-custom HTML section and makes it possible to use the two additional template
-modes.
+This mode is only intended to be a "reasonable fallback" when the template
+has insufficient information to deliver anything else.
 
-"Kartra Live" mode in conjunction with the source setting works like
-Blank Slate with a custom HTML block, except that the page loader embed
-script is injected into an "ultra-lean" page specifically tuned for Kartra
-with less overhead than Blank Slate.
+While not recommended, it is possible to display a Kartra page in this mode by
+cutting-and-pasting Kartra's "Embed code" into a WordPress custom HTML block.
 
-Kartra's page loader embed script will load the Kartra page content from
-Kartra's CloudFlare servers via an "iframe" and set the page title and other
-attributes.
+Once set up, displaying a Kartra page in WordPress mode follows this five-step
+process:
 
-In "Kartra Download" mode, the current Kartra page content will be downloaded
-and stored in WordPress each time you click on the Apply button. This page
-content will then be served directly from your WordPress site without the
-need for an "iframe".
+1. A visitor visits your WordPress site, which provides their browser with the
+Kartra Embed code from the custom HTML block
+2. The Embed code instructs their browser to fetch a second-stage page loader from Kartra
+3. The second-stage page loader creates an "iframe" (a page within a page;
+in this case, a Kartra page within a WordPress page) and tells their browser
+where to find the most recently published version of the Kartra page
+4. The browser loads the Kartra page into the iframe.
+5. The browser loads any additional assets referenced by the Kartra page.
+
+= "Kartra Live" Mode =
+
+Kartra Live mode produces a "live Kartra page in an iframe" result similar
+to WordPress mode, but with a couple of differences:
+
+1. You paste the Kartra Embed code (or URL portion from it) into the source
+input of the KCSG Kartra Pages controls area in the page editor instead of
+into a custom HTML block.
+2. When you select the Kartra Live option and click Apply, KKP generates a
+custom, second-stage page loader script which will be served directly from
+WordPress.
+3. The custom page loader uses your WordPress site icons instead of the
+Kartra site icons (so you won't need to associate your Kartra pages with
+a custom domain in order to get the site icon branding that's already
+on your WordPress domain).
+
+Once set up, displaying a Kartra page in Kartra Live mode follows this
+four-step process:
+
+1. A visitor visits your WordPress site, which provides their browser with a
+custom second-stage page loader
+2. The (custom) second-stage page loader creates an iframe and tells their
+brwoser where to find the most recently published version of the Kartra page.
+3. The browser loads the Kartra page into the iframe.
+4. The browser loads any additional assets referenced by the Kartra page.
+
+You do not need to do anything in WordPress when you publish page changes
+in Kartra.
+
+= "Kartra Download" Mode =
+
+In Kartra Download mode, a snapshot of the most recently published Kartra
+page (but with your WordPress site icons instead of Kartra site icons)
+is stored in, and served directly from, the WordPress database.
+
+To configure:
+
+1. Paste the Kartra Embed code (or URL portion from it) into the source
+input of the KCSG Kartra Pages controls area in the page editor.
+2. When you select the Kartra Download option and click Apply, KKP downloads
+and stores the most recently published version of the Kartra Page in the
+WordPress database. (Whenever you publish changes on Kartra, just click Apply
+again in the WordPress page editor to update the version saved in WordPress.)
+
+Once set up, displaying a Kartra page in Kartra Download mode follows this
+two=step process:
+
+1. A visitor visits your WordPress site, which immediately provides their
+browser with the downloaded-and-saved Kartra page.
+2. The browser loads any additional assets referenced by the Kartra page.
+
+Important: Per Kartra, due to cross-domain cookie restrictions, some
+tracking might not be accurate in download-to-server configurations
+(including KKP's Kartra Download mode). On pages where this is a concern,
+please use Kartra Live mode instead.
 
 == Installation ==
 
@@ -66,10 +120,10 @@ Page Attributes section.
 click the open arrow to open it if necessary.
 1. Choose the desired template mode.
 1. In order to use the Kartra modes, you must supply a source URL. You can
-paste any portion of the page loader embed code provided by Kartra as long as
-it includes the full source URL. KKP will extract the URL and discard the rest.
-This value will be remembered, so you don't need to supply it again unless you
-want to change it.
+paste any portion of Kartra's page loader Embed code for the corresponding
+Kartra page as long as it includes the full source URL. KKP will extract the
+URL and discard the rest. This value will be remembered, so you don't need
+to supply it again unless you want to change it.
 1. Click Apply. In Kartra Download mode, the stored content will be updated
 from the latest published version of your Kartra page. If successful, you will
 see a "Request complete" message.
@@ -80,50 +134,50 @@ see a "Request complete" message.
 
 In Live mode, the content is always loaded directly from Kartra's
 infrastructure, so visitors will always get the most recently published
-version without any additional effort on your part.
+version without any additional action required on your part.
 
-Since content comes from Kartra domains, tracking and analytics should
-work exactly the same.
-
-Page-loading performance might be better (or the same, or worse), depending
-on numerous static and dynamic factors.
+Content is delivered in iframes using the standard kartra domains, so
+tracking and analytics should all work as normal.
 
 = What are the advantages of Kartra Download mode over Kartra Live mode? =
 
 Since your content is being served directly from your WordPress domain, it
 will definitely be attributed to your WordPress domain by search engines.
-(In Live mode, your content appears in an "iframe" with your Kartra domain,
-and therefore might be attributed to your Kartra domain instead.)
+(In Live mode, search engines might attribute your content to your Kartra
+domain.)
 
-Since Download-mode content is regular HTML and doesn't involve a
-JavaScript-generated iframe, search engines that don't understand
+Since Download-mode content is regular HTML and doesn't involve several
+levels of JavaScript indirection, search engines that don't understand
 JavaScript will still be able to index your content.
 
-While Live mode uses the Kartra brand tab/site icon, Download mode uses
-your WordPress-configured site icon.
+Download mode does more work in advance so that fewer steps and fewer
+network requests and responses are required to display the final page.
 
-Page-loading performance might be better (or the same, or worse), depending
-on numerous static and dynamic factors. Cache mode elininates one round-trip
-network request associated with requesting and retrieving the page loader
-embed script (since it's not used in this mode), but this could potentially
-be overshadowed by other factors.
-
-Important note: Per Kartra, due to cross-domain cookie restrictions, some
+Important: Per Kartra, due to cross-domain cookie restrictions, some
 tracking might not be accurate in download-to-server configurations
-(including KKP's Download mode). On pages where this is a concern, please use
-Live mode instead.
+(including KKP's Kartra Download mode). On pages where this is a concern,
+please use Kartra Live mode instead.
 
 = How does KCSG Kartra Pages compare to Aaron Reimann's Blank Slate? =
 
 KKP's WordPress mode should be virtually identical in function to
 Blank Slate.
 
-KKP's Kartra Live mode has lower overhead than Blank Slate because it is
-specifically tuned for the way Kartra's page loader embed script works.
+In comparison, KKP's Kartra Live mode...
 
-KKP's Kartra Download mode incorporates a Kartra-specific process for
-downloading Kartra-built pages and displaying them directly from WordPress.
-Blank Slate does not, because it's a more general-purpose plugin.
+* Uses a very-low-overhead, Kartra-tuned page-loading process
+* Is designed to reduce the chances of page-loading loops sometimes observed
+when using Blank Slate
+* Saves a custom page loader in WordPress, saving a step in the display
+process
+* Uses your WordPress site icons instead of Kartra site icons
+
+KKP's Kartra Download mode:
+
+* Saves a snapshot of your published Katra page directly in the WordPress
+database, eliminating several steps in the display process
+* Also uses your WordPress site icons instead of Kartra site icons
+* Ensures SEO efforts will be attributed to your WordPress domain
 
 == Screenshots ==
 
@@ -134,6 +188,11 @@ and the KCSG Kartra Pages control section.
 
 = 0.0.3 =
 * Added internationalization support
+* Changed blank, script, and cache modes in the user interface to be
+  WordPress, Kartra Live, and Kartra Download to be more clear and
+  less technical
+* Changed script/live mode to cache a custom, second-stage page loader
+  instead of using a mostly-stock, first-stage embed script
 * Removed unused post support (since it only works for pages)
 
 = 0.0.2 =

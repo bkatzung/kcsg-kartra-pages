@@ -34,31 +34,11 @@ while ( have_posts() ) {
     $id = get_the_ID();
     $mode = get_post_meta( $id, 'kcsg_kp_page_mode', true );
     switch ( $mode ) {
-    case 'script':
+    case 'script':	# Kartra Live
+    case 'cache':	# Kartra Download
 	/*
-	 * Include the Kartra page-loader embed <script>. It will
-	 * set up our title and all meta tags and load the page
-	 * content into an iframe.
-	 */
-	$url = get_post_meta( $id, 'kcsg_kp_url', true );
-	if ( ! empty( $url ) ) {
-?><!doctype html>
-<html><head>
-<script src="<?php echo $url; ?>"></script>
-</head><body></body></html>
-<?php
-	    continue 2;
-	}
-	break;
-
-    case 'cache':
-	/*
-	 * Bypass the page-loader javascript/iframe step and directly
-	 * display the page HTML we pre-fetched and cached. This is
-	 * equivalent to the Kartra "download page files" option, but
-	 * is much faster, easier, and doesn't include downloading
-	 * scores of support files that actually still load from
-	 * their normal Kartra/CloudFlare/CDN servers anyway!
+	 * Display either the cached custom page loader (script/live mode)
+	 * or the cached final page HTML (cache/download mode).
 	 * rawurldecode reverses our post_meta protections (see admin).
 	 */
 	$content = get_post_meta( $id, 'kcsg_kp_cache', true );
@@ -69,7 +49,7 @@ while ( have_posts() ) {
 	break;
     }
 
-    // Fall back to a "Blank Slate"-ish, native page output.
+    // Fall back to a "Blank Slate"-ish, native WordPress page output.
     kcsg_kp_send_head();
     the_content();
 }
