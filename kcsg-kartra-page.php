@@ -2,7 +2,7 @@
 /*
  * KCSG Kartra Page template
  *
- * Include either the loader <script> in an absolutely bare-bones
+ * Include either the loader script in an absolutely bare-bones
  * HTML page or the cached full-page content AS IS.
  *
  * Author: Brian Katzung, Kappa Computer Solutions, LLC <briank@kappacs.com>
@@ -11,6 +11,7 @@
  */
 $kcsg_kp_sent_head = false;
 
+// Send headers once if falling back to blank/WordPress mode
 function kcsg_kp_send_head() {
     global $kcsg_kp_sent_head;
 
@@ -29,6 +30,51 @@ function kcsg_kp_send_head() {
     $kcsg_kp_sent_head = true;
 }
 
+// Generate our custom page-loader page
+function kcsg_kp_loader_page( $url ) {
+?><!doctype html>
+<html>
+<head>
+<meta name='viewport' content='width=device-width, initial-scale=1.0'>
+<meta name='description' content=''>
+<meta name='keywords' content=''>
+<meta name='robots' content=''>
+<?php wp_site_icon(); ?>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    var page = document.getElementById('page');
+    var reloadable = true;
+
+    window.addEventListener('message', function (event) {
+	var data = event.data;
+	console.log('Parent message event', event);
+	if ('no_visitor_cookie' === data.error && reloadable) {
+	    reloadable = false; // Max 1 reload
+	    page.src = 'https://app.kartra.com/front/domain_validation?step=1&domain=kartra.com&url=<?php echo $url ?>';
+	    return;
+	}
+
+	if (data.title) {
+	    document.title = data.title;
+	}
+
+	['description', 'keywords', 'robots'].forEach((meta) => {
+	    if (data[meta]) {
+		document.getElementsByName(meta)[0].content = data[meta];
+	    }
+	  });
+      }, false);
+
+    page.src = '<?php echo $url ?>';
+  }, false);
+</script>
+</head>
+<body>
+<iframe id='page' style='width: 100%; height: 100%; position: absolute; top: 0px; left: 0px; border: none;' scrolling='yes' allowfullscreen='yes'>
+</body>
+<?php
+}
+
 while ( have_posts() ) {
     the_post();
     $id = get_the_ID();
@@ -37,13 +83,19 @@ while ( have_posts() ) {
     case 'script':	# Kartra Live
     case 'cache':	# Kartra Download
 	/*
-	 * Display either the cached custom page loader (script/live mode)
+	 * Display either the custom page loader (script/live mode)
 	 * or the cached final page HTML (cache/download mode).
 	 * rawurldecode reverses our post_meta protections (see admin).
 	 */
 	$content = get_post_meta( $id, 'kcsg_kp_cache', true );
 	if ( ! empty( $content ) ) {
-	    echo rawurldecode( $content );
+	    $content = rawurldecode( $content );
+	    if ( 'LOAD ' == substr( $content, 0, 5 ) ) {
+		// "Content" is cached final page URL
+		kcsg_kp_loader_page( substr( $content, 5 ) );
+	    } else {
+		echo $content;
+	    }
 	    continue 2;
 	}
 	break;

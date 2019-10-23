@@ -25,7 +25,7 @@ function kcsg_kp_render_meta( $post ) {
 
     // Localizations
     $mode_section = esc_html__( 'KCSG Kartra Page Template Mode', 'kcsg-kartra-pages' );
-    $source_or_url = esc_html__( 'Source script or URL', 'kcsg-kartra-pages' );
+    $source_or_url = esc_html__( 'Page Embed code or URL (copy and paste from Kartra)', 'kcsg-kartra-pages' );
     $apply = esc_html__( 'Apply', 'kcsg-kartra-pages' );
     $save_first = esc_js( __( 'Please save draft or publish first.', 'kcsg-kartra-pages' ) );
     $processing = esc_js( __( 'Processing request...', 'kcsg-kartra-pages' ) );
@@ -164,10 +164,23 @@ function kcsg_kp_ajax_set() {
 	    $new_url = '';
 	}
     } else if ( preg_match( '/https:[_a-z0-9\/.-]+/i', $new_source, $matches ) ) {
-	// We have simplistic validation of a non-empty source
+	/*
+	 * We have simplistic validation of a non-empty source.
+	 * Now check for some Kartra specifics.
+	 */
 	$new_url = $matches[ 0 ];
+	if ( false === strpos( $new_url, '.kartra.com/page' ) ) {
+	    kcsg_kp_return_fail( __( 'A kartra.com page URL is required. For custom-domain pages, use the page Embed code.' ) );
+	}
+	if ( false === strpos( $new_url, '/page/embed/' ) ) {
+	    /*
+	     * Change page URLs to embedded-page URLs, but leave embed-script
+	     * URLs alone. Confused yet?
+	     */
+	    $new_url = str_replace( '/page/', '/page_embed/', $new_url );
+	}
     } else {
-	kcsg_kp_return_fail( __( 'Invalid source', 'kcsg-kartra-pages' ) );
+	kcsg_kp_return_fail( __( 'Invalid URL format', 'kcsg-kartra-pages' ) );
     }
 
     // Refresh or clear the cache
@@ -211,77 +224,35 @@ function kcsg_kp_return_fail( $text ) {
     wp_die();
 }
 
-// Fetch the page contents by page loader URL
-function kcsg_kp_fetch_page( $loader_url, $mode ) {
-    // Step 1: Fetch the page loader (JavaScript) if the URL is valid
-    if ( false == strpos( $loader_url, '.kartra.com/page/embed/' ) ) return '';
-    $script = @file_get_contents( $loader_url );
+// Fetch whatever we'll need to display the page
+function kcsg_kp_fetch_page( $given_url, $mode ) {
+    if ( false !== strpos( $given_url, '.kartra.com/page/embed/' ) ) {
+	// Fetch the page loader if given the page-loader URL
+	$script = @file_get_contents( $given_url );
 
-    // Step 2: Fetch the page HTML if we find a valid URL in the page loader
-    if ( ! preg_match( "/= '(https:[_a-z0-9\/.-]+)'/i", $script, $matches ) ) return '';
-    $url = $matches[ 1 ];
+	// Grab the embedded-page URL from the page loader
+	if ( ! preg_match( "/= '(https:[_a-z0-9\/.-]+)'/i", $script, $matches ) ) return '';
+	$url = $matches[ 1 ];
+    } else {
+	// Proceed with the given URL if it's not a page-loader URL
+	$url = $given_url;
+    }
+
+    // By this point, we need the embedded-page URL
     if ( false == strpos( $url, '.kartra.com/page_embed' ) ) return '';
 
     if ( 'script' == $mode ) {
-	return kcsg_kp_loader_page( $url );
+	/*
+	 * We'll be using our custom page-loader script, so all we need
+	 * to save is the embedded-page URL.
+	 */
+	return "LOAD $url";
     }
 
     $page = @file_get_contents( $url );
 
-    /*
-     * Kartra always includes one shortcut icon link referencing the Kartra-
-     * brand favicon (except for Kartra-served pages configured for a custom
-     * domain URL and favicon). For here, we'll display the page with the
-     * locally-configured icons.
-     */
+    // Return the page with locally-configured WordPress site icons
     return preg_replace( '/<link[^>]+rel=.(?:shortcut )?icon[^>]+>/', kcsg_kp_site_icons(), $page );
-}
-
-// Retun our custom page loader
-function kcsg_kp_loader_page( $url ) {
-    $icons = kcsg_kp_site_icons();
-    return <<<HTML
-<!doctype html>
-<html>
-<head>
-<meta name='viewport' content='width=device-width, initial-scale=1.0'>
-<meta name='description' content=''>
-<meta name='keywords' content=''>
-<meta name='robots' content=''>
-$icons
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-    var page = document.getElementById('page');
-    var reloadable = true;
-
-    window.addEventListener('message', function (event) {
-	var data = event.data;
-	console.log('Parent message event', event);
-	if ('no_visitor_cookie' === data.error && reloadable) {
-	    reloadable = false;
-	    page.src = 'https://app.kartra.com/front/domain_validation?step=1&domain=kartra.com&url=$url';
-	    return;
-	}
-
-	if (data.title) {
-	    document.title = data.title;
-	}
-
-	['description', 'keywords', 'robots'].forEach((meta) => {
-	    if (data[meta]) {
-		document.getElementsByName(meta)[0].content = data[meta];
-	    }
-	  });
-      }, false);
-
-    page.src = '$url';
-  }, false);
-</script>
-</head>
-<body>
-<iframe id='page' style='width: 100%; height: 100%; position: absolute; top: 0px; left: 0px; border: none;' scrolling='yes' allowfullscreen='yes'>
-</body>
-HTML;
 }
 
 // Capture the site icon tags as a string

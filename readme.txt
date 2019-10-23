@@ -31,7 +31,7 @@ This mode is only intended to be a "reasonable fallback" when the template
 has insufficient information to deliver anything else.
 
 While not recommended, it is possible to display a Kartra page in this mode by
-cutting-and-pasting Kartra's "Embed code" into a WordPress custom HTML block.
+copying-and-pasting Kartra's "Embed code" into a WordPress custom HTML block.
 
 Once set up, displaying a Kartra page in WordPress mode follows this five-step
 process:
@@ -50,11 +50,11 @@ where to find the most recently published version of the Kartra page
 Kartra Live mode produces a "live Kartra page in an iframe" result similar
 to WordPress mode, but with a couple of differences:
 
-1. You paste the Kartra Embed code (or URL portion from it) into the source
-input of the KCSG Kartra Pages controls area in the page editor instead of
-into a custom HTML block.
-2. When you select the Kartra Live option and click Apply, KKP generates a
-custom, second-stage page loader script which will be served directly from
+1. You paste the Kartra Embed code (or URL portion from it) into the
+Embed code/URL input of the KCSG Kartra Pages controls area in the page
+editor instead of into a custom HTML block.
+2. When you select the Kartra Live option and click Apply, KKP will generate
+a custom, second-stage page loader script which will be served directly from
 WordPress.
 3. The custom page loader uses your WordPress site icons instead of the
 Kartra site icons (so you won't need to associate your Kartra pages with
@@ -82,7 +82,7 @@ is stored in, and served directly from, the WordPress database.
 
 To configure:
 
-1. Paste the Kartra Embed code (or URL portion from it) into the source
+1. Paste the Kartra Embed code (or URL portion from it) into the Embed code/URL
 input of the KCSG Kartra Pages controls area in the page editor.
 2. When you select the Kartra Download option and click Apply, KKP downloads
 and stores the most recently published version of the Kartra Page in the
@@ -90,7 +90,7 @@ WordPress database. (Whenever you publish changes on Kartra, just click Apply
 again in the WordPress page editor to update the version saved in WordPress.)
 
 Once set up, displaying a Kartra page in Kartra Download mode follows this
-two=step process:
+two-step process:
 
 1. A visitor visits your WordPress site, which immediately provides their
 browser with the downloaded-and-saved Kartra page.
@@ -186,7 +186,14 @@ and the KCSG Kartra Pages control section.
 
 == Changelog ==
 
+= 0.0.4 =
+
+* Store just the page URL and not the page loader in script/live mode
+* Improve URL validation
+* Accept kartra.com page links as well as embed codes or URLs
+
 = 0.0.3 =
+
 * Added internationalization support
 * Changed blank, script, and cache modes in the user interface to be
   WordPress, Kartra Live, and Kartra Download to be more clear and
@@ -196,4 +203,5 @@ and the KCSG Kartra Pages control section.
 * Removed unused post support (since it only works for pages)
 
 = 0.0.2 =
+
 * First release to beta testers
