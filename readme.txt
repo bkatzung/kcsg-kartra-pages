@@ -4,7 +4,7 @@ Donate link: https://kcsg.krtra.com/t/U8MKk5qeQXYf
 Tags: Kartra, KCSG, Tools For Kartra, pages, loading, embedding, templates
 Requires at least: 5.2.4
 Tested up to: 5.2.4
-Stable tag: 0.0.3
+Stable tag: 0.0.4
 Requires PHP: 5.6.30
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -178,6 +178,12 @@ KKP's Kartra Download mode:
 database, eliminating several steps in the display process
 * Also uses your WordPress site icons instead of Kartra site icons
 * Ensures SEO efforts will be attributed to your WordPress domain
+
+== Disclaimer ==
+
+KCSG Kartra Pages is a free plugin by Brian Katzung of Kappa Computer
+Solutions, LLC and BusRes.com Business Resources. It is not affiliated
+with, endorsed, or supported by Kartra or Genesis Digital.
 
 == Screenshots ==
 
