@@ -9,8 +9,7 @@ Requires PHP: 5.6.30
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
-Display Kartra-built pages via WordPress. Supports embed ("iframe") *AND*
-download-to-server modes.
+Display Kartra pages in WordPress ("live" or downloaded) *BETA*
 
 == Description ==
 
@@ -33,17 +32,13 @@ has insufficient information to deliver anything else.
 While not recommended, it is possible to display a Kartra page in this mode by
 copying-and-pasting Kartra's "Embed code" into a WordPress custom HTML block.
 
-Once set up, displaying a Kartra page in WordPress mode follows this five-step
-process:
+Once set up, a WordPress visitor's browser would display the Kartra page by
+following this four-step process:
 
-1. A visitor visits your WordPress site, which provides their browser with the
-Kartra Embed code from the custom HTML block
-2. The Embed code instructs their browser to fetch a second-stage page loader from Kartra
-3. The second-stage page loader creates an "iframe" (a page within a page;
-in this case, a Kartra page within a WordPress page) and tells their browser
-where to find the most recently published version of the Kartra page
-4. The browser loads the Kartra page into the iframe.
-5. The browser loads any additional assets referenced by the Kartra page.
+1. The browser loads the Kartra embed code from the WordPress custom HTML block
+2. The browser loads a page-loader script from Kartra based on the embed code
+3. The browser loads the Kartra page from Kartra based on the page-loader script
+4. The browser loads any additional assets referenced by the Kartra page
 
 = "Kartra Live" Mode =
 
@@ -53,26 +48,23 @@ to WordPress mode, but with a couple of differences:
 1. You paste the Kartra Embed code (or URL portion from it) into the
 Embed code/URL input of the KCSG Kartra Pages controls area in the page
 editor instead of into a custom HTML block.
-2. When you select the Kartra Live option and click Apply, KKP will generate
-a custom, second-stage page loader script which will be served directly from
+2. When you select the Kartra Live option and click Apply, KKP uses a
+custom, second-stage page loader script which will be served directly from
 WordPress.
 3. The custom page loader uses your WordPress site icons instead of the
 Kartra site icons (so you won't need to associate your Kartra pages with
 a custom domain in order to get the site icon branding that's already
 on your WordPress domain).
 
-Once set up, displaying a Kartra page in Kartra Live mode follows this
-four-step process:
+Once set up, A WordPress visitor's browser will display a Kartra page in
+Kartra Live mode by following this three-step process:
 
-1. A visitor visits your WordPress site, which provides their browser with a
-custom second-stage page loader
-2. The (custom) second-stage page loader creates an iframe and tells their
-brwoser where to find the most recently published version of the Kartra page.
-3. The browser loads the Kartra page into the iframe.
-4. The browser loads any additional assets referenced by the Kartra page.
+1. The browser loads a custom page-loader script from WordPress
+2. The browser loads the Kartra page from Kartra based on the page-loader script
+3. The browser loads any additional assets referenced by the Kartra page
 
-You do not need to do anything in WordPress when you publish page changes
-in Kartra.
+In this mode, you do not need to do anything in WordPress when you publish
+page changes in Kartra.
 
 = "Kartra Download" Mode =
 
@@ -89,12 +81,12 @@ and stores the most recently published version of the Kartra Page in the
 WordPress database. (Whenever you publish changes on Kartra, just click Apply
 again in the WordPress page editor to update the version saved in WordPress.)
 
-Once set up, displaying a Kartra page in Kartra Download mode follows this
-two-step process:
+Once set up, a WordPress visitor's browser will display a Kartra page in
+Kartra Download mode by following this two-step process:
 
-1. A visitor visits your WordPress site, which immediately provides their
-browser with the downloaded-and-saved Kartra page.
-2. The browser loads any additional assets referenced by the Kartra page.
+1. The browser loads the downloaded-and-saved Kartra page directly from
+WordPress
+2. The browser loads any additional assets referenced by the Kartra page
 
 Important: Per Kartra, due to cross-domain cookie restrictions, some
 tracking might not be accurate in download-to-server configurations
@@ -186,6 +178,10 @@ For support, please use the help desk on the
 For general information and announcements, please join the
 [KCSG Tools For Kartra Facebook group](https://facebook.com/groups/kcsgtfk).
 
+Be advised that this is a free plugin provided on an "as-is" basis, not a
+commercially supported product. The author(s) will do their best to provide
+support in their available time.
+
 == Privacy Policy ==
 
 This plugin collects and uses the Kartra page URLs you enter, along with
@@ -208,7 +204,7 @@ and the KCSG Kartra Pages control section.
 
 == Upgrade Notice ==
 
-This plugin is still in beta-testing. There are no public upgrade notices yet.
+There are no upgrade notices yet.
 
 == Changelog ==
 
