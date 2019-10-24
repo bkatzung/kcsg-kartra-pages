@@ -17,6 +17,11 @@ KCSG Kartra Pages (KKP) extends any theme by adding a custom page template
 specifically designed for displaying Kartra-built pages via your WordPress
 site.
 
+**Note: This plugin is currently in beta testing.**
+If you would like to particpate, please notify
+[Brian Katzung](https://m.me/briankatzung) and join the
+[KCSG Tools For Kartra Facebook group](https://facebook.com/groups/kcsgtfk).
+
 The template operates in one of three modes chosen from controls provided
 in the page editor:
 
