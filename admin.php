@@ -183,7 +183,7 @@ function kcsg_kp_ajax_set() {
 	kcsg_kp_return_fail( __( 'Invalid URL format', 'kcsg-kartra-pages' ) );
     }
 
-    // Refresh or clear the cache
+    // Refresh or clear the cache and page mode
     if ( 'blank' != $new_mode ) {
 	$new_cache = kcsg_kp_fetch_page( $new_url, $new_mode );
 	if ( empty( $new_cache ) ) {
@@ -192,12 +192,18 @@ function kcsg_kp_ajax_set() {
 	      $new_url ) );
 	}
 	update_post_meta( $post_id, 'kcsg_kp_cache', kcsg_kp_meta_encode( $new_cache ) );
+	update_post_meta( $post_id, 'kcsg_kp_page_mode', $new_mode );
     } else {
 	delete_post_meta( $post_id, 'kcsg_kp_cache' );
+	delete_post_meta( $post_id, 'kcsg_kp_page_mode' );
     }
 
-    update_post_meta( $post_id, 'kcsg_kp_url', $new_url );
-    update_post_meta( $post_id, 'kcsg_kp_page_mode', $new_mode );
+    // Update or clear the URL
+    if ( ! empty( $new_url ) ) {
+	update_post_meta( $post_id, 'kcsg_kp_url', $new_url );
+    } else {
+	delete_post_meta( $post_id, 'kcsg_kp_url' );
+    }
     kcsg_kp_return_done( $new_mode, $new_url, __( 'Request complete', 'kcsg-kartra-pages' ) );
 }
 
