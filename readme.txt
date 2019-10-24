@@ -182,9 +182,9 @@ database, eliminating several steps in the display process
 = Where can I get support or more information? =
 
 For support, please use the help desk on the
-(Tools For Kartra page)[https://kcsg.kartra.com/page/tools-for-kartra].
+[Tools For Kartra page](https://kcsg.kartra.com/page/tools-for-kartra).
 For general information and announcements, please join the
-(KCSG Tools For Kartra Facebook group)[https://facebook.com/groups/kcsgtfk].
+[KCSG Tools For Kartra Facebook group](https://facebook.com/groups/kcsgtfk).
 
 == Privacy Policy ==
 
