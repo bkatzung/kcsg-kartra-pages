@@ -206,6 +206,8 @@ with, endorsed, or supported by Kartra or Genesis Digital.
 1. This screenshot shows the selection of the KCSG Kartra Page page template
 and the KCSG Kartra Pages control section.
 
+== Upgrade Notice ==
+
 == Changelog ==
 
 = 0.0.4 =
