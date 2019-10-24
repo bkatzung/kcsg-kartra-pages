@@ -179,6 +179,15 @@ database, eliminating several steps in the display process
 * Also uses your WordPress site icons instead of Kartra site icons
 * Ensures SEO efforts will be attributed to your WordPress domain
 
+== Privacy Policy ==
+
+This plugin collects and uses the Kartra page URLs you enter, along with
+associated alternative URLs and published Kartra page content, for the
+sole purpose of displaying the specified Kartra pages to your WordPress
+website visitors.
+
+No other information is collected, used, or disclosed.
+
 == Disclaimer ==
 
 KCSG Kartra Pages is a free plugin by Brian Katzung of Kappa Computer
