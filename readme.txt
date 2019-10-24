@@ -208,6 +208,8 @@ and the KCSG Kartra Pages control section.
 
 == Upgrade Notice ==
 
+This plugin is still in beta-testing. There are no public upgrade notices yet.
+
 == Changelog ==
 
 = 0.0.4 =
