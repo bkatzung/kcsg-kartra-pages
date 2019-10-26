@@ -30,8 +30,13 @@ function kcsg_kp_send_head() {
     $kcsg_kp_sent_head = true;
 }
 
-// Generate our custom page-loader page
+// Render our custom page-loader page
 function kcsg_kp_loader_page( $url ) {
+    /*
+     * Escape URL for non-display, in in-line JS string (all of which
+     * *ought* to have zero effect on our "safe", sanitized URL values).
+     */
+    $esc_url = esc_js( esc_url_raw( $url ) );
 ?><!doctype html>
 <html>
 <head>
@@ -47,10 +52,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
     window.addEventListener('message', function (event) {
 	var data = event.data;
-	console.log('Parent message event', event);
 	if ('no_visitor_cookie' === data.error && reloadable) {
 	    reloadable = false; // Max 1 reload
-	    page.src = 'https://app.kartra.com/front/domain_validation?step=1&domain=kartra.com&url=<?php echo $url ?>';
+	    page.src = 'https://app.kartra.com/front/domain_validation?step=1&domain=kartra.com&url=<?php echo $esc_url; ?>';
 	    return;
 	}
 
@@ -65,7 +69,7 @@ document.addEventListener('DOMContentLoaded', function () {
 	  });
       }, false);
 
-    page.src = '<?php echo $url ?>';
+    page.src = '<?php echo $esc_url; ?>';
   }, false);
 </script>
 </head>
@@ -88,12 +92,13 @@ while ( have_posts() ) {
 	 * rawurldecode reverses our post_meta protections (see admin).
 	 */
 	$content = get_post_meta( $id, 'kcsg_kp_cache', true );
-	if ( ! empty( $content ) ) {
+	if ( '' !== $content ) {
 	    $content = rawurldecode( $content );
-	    if ( 'LOAD ' == substr( $content, 0, 5 ) ) {
+	    if ( 'LOAD ' === substr( $content, 0, 5 ) ) {
 		// "Content" is cached final page URL
 		kcsg_kp_loader_page( substr( $content, 5 ) );
 	    } else {
+		// Content is raw page HTML
 		echo $content;
 	    }
 	    continue 2;

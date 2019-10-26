@@ -27,11 +27,14 @@ function kcsg_kp_render_meta( $post ) {
     $mode_section = esc_html__( 'KCSG Kartra Page Template Mode', 'kcsg-kartra-pages' );
     $source_or_url = esc_html__( 'Page Embed code or URL (copy and paste from Kartra)', 'kcsg-kartra-pages' );
     $apply = esc_html__( 'Apply', 'kcsg-kartra-pages' );
-    $save_first = esc_js( __( 'Please save draft or publish first.', 'kcsg-kartra-pages' ) );
-    $processing = esc_js( __( 'Processing request...', 'kcsg-kartra-pages' ) );
-    $request_failed = esc_js( __( 'Request failed', 'kcsg-kartra-pages' ) );
 
-    $esc_url = esc_url($url); // Might be necesary in the future?
+    $save_first = esc_js( esc_html__( 'Please save draft or publish first.', 'kcsg-kartra-pages' ) );
+    $processing = esc_js( esc_html__( 'Processing request...', 'kcsg-kartra-pages' ) );
+    $request_failed = esc_js( esc_html__( 'Request failed', 'kcsg-kartra-pages' ) );
+
+    // Escape other variable output
+    $esc_url = esc_url( $url );
+
     echo <<<HTML
 <p>$mode_section</p>
 <div id='kcsg_kp_page_modes'>$page_modes</div>
@@ -40,7 +43,6 @@ function kcsg_kp_render_meta( $post ) {
 <p><button id='kcsg_kp_apply' style='margin-right: 1em;'>$apply</button> <span id='kcsg_kp_message'></span></p>
 <script>
 function kcsgKpApplied (jr) {
-    // console.log('Reply is ' + jr);
     r = JSON.parse(jr);
     if (r.pageModes) {
 	jQuery('#kcsg_kp_page_modes').html(r.pageModes);
@@ -63,11 +65,7 @@ jQuery('#kcsg_kp_apply').click(function () {
 	return;
     }
 
-    /*
-     * WordFence gets nervous about seeing HTML in a POST parameter unless
-     * you whitelist the call, so fix <script> sources on the client side
-     * in order to work out of the box in more places with less effort.
-     */
+    // Extract URLs from page-loader <script> client-side
     var source = jQuery('#kcsg_kp_source').val();
     var matches = source.match(/https:[_0-9a-z\/.-]+/i);
     if (matches && matches[0] != source) {
@@ -142,79 +140,82 @@ function kcsg_kp_ajax_set() {
 	kcsg_kp_return_fail( __( 'Please refresh the page and try again', 'kcsg-kartra-pages' ) );
     }
 
-    $new_mode = isset( $_POST[ 'kcsg_kp_page_mode' ] ) ? $_POST[ 'kcsg_kp_page_mode' ] : '';
-    $new_source = isset( $_POST[ 'kcsg_kp_source' ] ) ? $_POST[ 'kcsg_kp_source' ] : '';
-
-    // Validate the template page mode
-    switch ( $new_mode ) {
-    case 'blank':
-    case 'script':
-    case 'cache':
-	break;
-
-    default:
+    // Validate and sanitize the requested template page mode
+    $new_mode = ( isset( $_POST[ 'kcsg_kp_page_mode' ] ) && in_array( $_POST[ 'kcsg_kp_page_mode' ], array( 'blank', 'script', 'cache' ) ) ) ? sanitize_text_field( $_POST[ 'kcsg_kp_page_mode' ] ) : '';
+    if ( '' === $new_mode ) {
 	kcsg_kp_return_fail( __( 'Please select a template mode', 'kcsg-kartra-pages' ) );
     }
 
-    if ( empty( $new_source ) ) {
+    // Sanitize and validate the source URL
+    $new_url = isset( $_POST[ 'kcsg_kp_source' ] ) ? sanitize_kartra_page_url( $_POST[ 'kcsg_kp_source' ] ) : '';
+
+    if ( '' === $new_url ) {
 	if ( 'blank' != $new_mode ) {
 	    // We need a source for script/live or cache/download mode
 	    kcsg_kp_return_fail( __( 'Please supply a source', 'kcsg-kartra-pages' ) );
-	} else {
-	    $new_url = '';
 	}
-    } else if ( preg_match( '/https:[_a-z0-9\/.-]+/i', $new_source, $matches ) ) {
-	/*
-	 * We have simplistic validation of a non-empty source.
-	 * Now check for some Kartra specifics.
-	 */
-	$new_url = $matches[ 0 ];
-	if ( false === strpos( $new_url, '.kartra.com/page' ) ) {
-	    kcsg_kp_return_fail( __( 'A kartra.com page URL is required. For custom-domain pages, use the page Embed code.' ) );
-	}
+    } else if ( is_kartra_page_url( $new_url ) ) {
 	if ( false === strpos( $new_url, '/page/embed/' ) ) {
 	    /*
 	     * Change page URLs to embedded-page URLs, but leave embed-script
-	     * URLs alone. Confused yet?
+	     * URLs alone.
 	     */
 	    $new_url = str_replace( '/page/', '/page_embed/', $new_url );
 	}
     } else {
-	kcsg_kp_return_fail( __( 'Invalid URL format', 'kcsg-kartra-pages' ) );
+	kcsg_kp_return_fail( __( 'A kartra.com page URL is required. For custom-domain pages, use the page Embed code.' ) );
     }
 
     // Refresh or clear the cache and page mode
-    if ( 'blank' != $new_mode ) {
+    if ( 'blank' === $new_mode ) {
+	// No meta info needed for native WP content
+	delete_post_meta( $post_id, 'kcsg_kp_cache' );
+	delete_post_meta( $post_id, 'kcsg_kp_page_mode' );
+    } else {
 	$new_cache = kcsg_kp_fetch_page( $new_url, $new_mode );
-	if ( empty( $new_cache ) ) {
+	if ( '' === $new_cache ) {
 	    kcsg_kp_return_fail( sprintf(
 	      __('No contents found at %s', 'kcsg-kartra-pages' ),
 	      $new_url ) );
 	}
-	update_post_meta( $post_id, 'kcsg_kp_cache', kcsg_kp_meta_encode( $new_cache ) );
+	update_post_meta( $post_id, 'kcsg_kp_cache', meta_encode( $new_cache ) );
 	update_post_meta( $post_id, 'kcsg_kp_page_mode', $new_mode );
-    } else {
-	delete_post_meta( $post_id, 'kcsg_kp_cache' );
-	delete_post_meta( $post_id, 'kcsg_kp_page_mode' );
     }
 
-    // Update or clear the URL
-    if ( ! empty( $new_url ) ) {
-	update_post_meta( $post_id, 'kcsg_kp_url', $new_url );
-    } else {
+    // Update or clear the source URL
+    if ( '' === $new_url ) {
 	delete_post_meta( $post_id, 'kcsg_kp_url' );
+    } else {
+	update_post_meta( $post_id, 'kcsg_kp_url', $new_url );
     }
+
     kcsg_kp_return_done( $new_mode, $new_url, __( 'Request complete', 'kcsg-kartra-pages' ) );
+}
+
+if ( ! function_exists( 'sanitize_kartra_page_url' ) ) {
+    function sanitize_kartra_page_url( $url ) {
+	// Accept a subset of valid URL characters (no queries or fragments)
+	return preg_replace( '/[^_a-z0-9:\/.-]/i', '', sanitize_text_field( $url ) );
+    }
+}
+
+if ( ! function_exists( 'is_kartra_page_url' ) ) {
+    function is_kartra_page_url( $url ) {
+	// Must look like a page, embedded-page, or page-loader URL
+	return preg_match( '/^https:\/\/[_a-z0-9-]+\.kartra\.com\/page(?:_embed)?\//i', $url );
+    }
 }
 
 /*
  * Return post_meta-safe encoding (decode with rawurldecode)
  * % => %25, \ => %5C
  * so that "strings \"like this\"" don't become "strings "like this""
- * in MySQL and on the final page (ouch).
+ * in MySQL and break the final page.
  */
-function kcsg_kp_meta_encode( $text ) {
-    return str_replace( array( '%', '\\' ), array( '%25', '%5C' ), $text );
+if ( ! function_exists( 'meta_encode' ) ) {
+    function meta_encode( $text ) {
+	return str_replace( array( '%', '\\' ), array( '%25', '%5C' ), $text );
+    }
 }
 
 // Return an AJAX success status
@@ -222,32 +223,37 @@ function kcsg_kp_return_done( $mode, $url, $text ) {
     $modes = kcsg_kp_page_modes( $mode );
     echo json_encode( array( 'status' => 'done', 'pageModes' => $modes, 'source' => $url, 'message' => esc_html( $text ) ) );
     wp_die();
+    // No return
 }
 
 // Return an AJAX error status
 function kcsg_kp_return_fail( $text ) {
     echo json_encode( array( 'status' => 'fail', 'message' => "<span style='color: red;'>" . esc_html( $text ) . "</span>" ) );
     wp_die();
+    // No return
 }
 
 // Fetch whatever we'll need to display the page
 function kcsg_kp_fetch_page( $given_url, $mode ) {
     if ( false !== strpos( $given_url, '.kartra.com/page/embed/' ) ) {
 	// Fetch the page loader if given the page-loader URL
-	$script = @file_get_contents( $given_url );
+	$loader = '';
+	// NB: PHP-recommended urlencode does NOT work!
+	$loader = @file_get_contents( esc_url_raw( $given_url ) );
 
-	// Grab the embedded-page URL from the page loader
-	if ( ! preg_match( "/= '(https:[_a-z0-9\/.-]+)'/i", $script, $matches ) ) return '';
-	$url = $matches[ 1 ];
+	// Extract/sanitize/validate the embedded-page URL from the page loader
+	if ( false === $loader || ! preg_match( "/= '(https:[_a-z0-9\/.-]+)'/i", $loader, $matches ) ) return '';
+	$url = sanitize_kartra_page_url( $matches[ 1 ] );
+	if ( ! is_kartra_page_url( $url ) ) return '';
     } else {
 	// Proceed with the given URL if it's not a page-loader URL
 	$url = $given_url;
     }
 
-    // By this point, we need the embedded-page URL
-    if ( false == strpos( $url, '.kartra.com/page_embed' ) ) return '';
+    // By this point, we need the embedded-page URL specifically
+    if ( false === strpos( $url, '.kartra.com/page_embed/' ) ) return '';
 
-    if ( 'script' == $mode ) {
+    if ( 'script' === $mode ) {
 	/*
 	 * We'll be using our custom page-loader script, so all we need
 	 * to save is the embedded-page URL.
@@ -255,7 +261,14 @@ function kcsg_kp_fetch_page( $given_url, $mode ) {
 	return "LOAD $url";
     }
 
-    $page = @file_get_contents( $url );
+    /*
+     * Fetch the Kartra page HTML for Kartra Download mode. No validation.
+     * No sanitization. No escaping. No holodeck safety protocols. Just the
+     * raw HTML they would get directly from Kartra... with one exception.
+     */
+    $page = '';
+    $page = @file_get_contents( esc_url_raw( $url ) );
+    if ( false === $page ) return '';
 
     // Return the page with locally-configured WordPress site icons
     return preg_replace( '/<link[^>]+rel=.(?:shortcut )?icon[^>]+>/', kcsg_kp_site_icons(), $page );

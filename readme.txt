@@ -4,7 +4,7 @@ Donate link: https://kcsg.krtra.com/t/U8MKk5qeQXYf
 Tags: Kartra, KCSG, Tools For Kartra, pages, loading, embedding, templates
 Requires at least: 5.2.4
 Tested up to: 5.2.4
-Stable tag: 0.0.5
+Stable tag: 0.0.6
 Requires PHP: 5.6.30
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -212,6 +212,10 @@ and the KCSG Kartra Pages control section.
 There are no upgrade notices yet.
 
 == Changelog ==
+
+= 0.0.6 =
+
+* Update 1 for WordPress coding standards/review
 
 = 0.0.5 =
 
