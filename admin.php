@@ -179,7 +179,7 @@ function kcsg_kp_ajax_set() {
 	      __('No contents found at %s', 'kcsg-kartra-pages' ),
 	      $new_url ) );
 	}
-	update_post_meta( $post_id, 'kcsg_kp_cache', meta_encode( $new_cache ) );
+	update_post_meta( $post_id, 'kcsg_kp_cache', wp_slash( $new_cache ) );
 	update_post_meta( $post_id, 'kcsg_kp_page_mode', $new_mode );
     }
 
@@ -204,18 +204,6 @@ if ( ! function_exists( 'is_kartra_page_url' ) ) {
     function is_kartra_page_url( $url ) {
 	// Must look like a page, embedded-page, or page-loader URL
 	return preg_match( '/^https:\/\/[_a-z0-9-]+\.kartra\.com\/page(?:_embed)?\//i', $url );
-    }
-}
-
-/*
- * Return post_meta-safe encoding (decode with rawurldecode)
- * % => %25, \ => %5C
- * so that "strings \"like this\"" don't become "strings "like this""
- * in MySQL and break the final page.
- */
-if ( ! function_exists( 'meta_encode' ) ) {
-    function meta_encode( $text ) {
-	return str_replace( array( '%', '\\' ), array( '%25', '%5C' ), $text );
     }
 }
 

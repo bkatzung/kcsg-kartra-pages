@@ -93,7 +93,6 @@ while ( have_posts() ) {
 	 */
 	$content = get_post_meta( $id, 'kcsg_kp_cache', true );
 	if ( '' !== $content ) {
-	    $content = rawurldecode( $content );
 	    if ( 'LOAD ' === substr( $content, 0, 5 ) ) {
 		// "Content" is cached final page URL
 		kcsg_kp_loader_page( substr( $content, 5 ) );

@@ -213,6 +213,10 @@ There are no upgrade notices yet.
 
 == Changelog ==
 
+= 0.0.7 =
+
+* Revised page content escaping per *_post_meta documentation.
+
 = 0.0.6 =
 
 * Update 1 for WordPress coding standards/review
