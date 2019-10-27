@@ -23,17 +23,18 @@ function kcsg_kp_render_meta( $post ) {
     $page_modes = kcsg_kp_page_modes( $mode );
     $url = get_post_meta( $id, 'kcsg_kp_url', true );
 
-    // Localizations
+    // Localizations (HTML)
     $mode_section = esc_html__( 'KCSG Kartra Page Template Mode', 'kcsg-kartra-pages' );
     $source_or_url = esc_html__( 'Page Embed code or URL (copy and paste from Kartra)', 'kcsg-kartra-pages' );
     $apply = esc_html__( 'Apply', 'kcsg-kartra-pages' );
 
+    // Localizations (HTML via JS)
     $save_first = esc_js( esc_html__( 'Please save draft or publish first.', 'kcsg-kartra-pages' ) );
     $processing = esc_js( esc_html__( 'Processing request...', 'kcsg-kartra-pages' ) );
     $request_failed = esc_js( esc_html__( 'Request failed', 'kcsg-kartra-pages' ) );
 
-    // Escape other variable output
-    $esc_url = esc_url( $url );
+    // Escape URL in input value attribute
+    $esc_url = esc_attr( esc_url( $url ) );
 
     echo <<<HTML
 <p>$mode_section</p>
