@@ -4,7 +4,7 @@ Donate link: https://kcsg.krtra.com/t/U8MKk5qeQXYf
 Tags: Kartra, KCSG, Tools For Kartra, pages, loading, embedding, templates
 Requires at least: 5.2.4
 Tested up to: 5.2.4
-Stable tag: 0.0.8
+Stable tag: 0.0.9
 Requires PHP: 5.6.30
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -53,6 +53,8 @@ Once set up, A WordPress visitor's browser will display a Kartra page in Kartra 
 
 In this mode, you do not need to do anything in WordPress when you publish page changes in Kartra.
 
+Important: Because this mode is tuned for displaying Kartra-built pages, it elminates most of the overhead for supporting WordPress pages. A consequence of this is that any WordPress configuration for applying things like pixels, tracking, analytics, etc. will likely not work in Kartra Live mode. Use the corresponding Kartra page settings instead.
+
 = "Kartra Download" Mode =
 
 In Kartra Download mode, a snapshot of the most recently published Kartra page (but with your WordPress site icons instead of Kartra site icons) is stored in, and served directly from, the WordPress database.
@@ -66,6 +68,7 @@ Once set up, a WordPress visitor's browser will display a Kartra page in Kartra 
 
 1. The browser loads the downloaded-and-saved Kartra page directly from WordPress
 2. The browser loads any additional assets referenced by the Kartra page 
+
 Important: Per Kartra, due to cross-domain cookie restrictions, some tracking might not be accurate in download-to-server configurations (including KKP's Kartra Download mode). On pages where this is a concern, please use Kartra Live mode instead.
 
 == Installation ==
@@ -141,11 +144,15 @@ KCSG Kartra Pages is a free plugin by Brian Katzung of Kappa Computer Solutions,
 
 == Upgrade Notice ==
 
-= 0.0.8 =
+= 0.0.8 And 0.0.9 =
 
-This is a documentation update only (operating procedure clarification and formatting).
+These are documentation updates only.
 
 == Changelog ==
+
+= 0.0.9 =
+
+* Documentation update regarding WordPress pixels/tracking/analytics in Kartra Live mode.
 
 = 0.0.8 =
 
