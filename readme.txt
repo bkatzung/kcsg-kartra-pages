@@ -87,6 +87,10 @@ See the "Operation" section for operating instructions.
 1. In order to use the Kartra modes, you must supply a source URL. You can paste any portion of Kartra's page loader Embed code for the corresponding Kartra page as long as it includes the full source URL. KKP will extract the URL and discard the rest. This value will be remembered, so you don't need to supply it again unless you want to change it.
 1. Click the "Apply" button in the KCSG Kartra Pages control section. In Kartra Download mode, the stored content will be updated from the latest published version of your Kartra page. If successful, you will see a "Request complete" message.
 
+== Demonstration ==
+
+https://youtu.be/Aj0EitFeisM
+
 == Frequently Asked Questions ==
 
 = What are the advantages of Kartra Live mode over Kartra Download mode? =
