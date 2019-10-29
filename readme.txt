@@ -4,7 +4,7 @@ Donate link: https://kcsg.krtra.com/t/U8MKk5qeQXYf
 Tags: Kartra, KCSG, Tools For Kartra, pages, loading, embedding, templates
 Requires at least: 5.2.4
 Tested up to: 5.2.4
-Stable tag: 0.0.9
+Stable tag: 0.0.10
 Requires PHP: 5.6.30
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -87,10 +87,6 @@ See the "Operation" section for operating instructions.
 1. In order to use the Kartra modes, you must supply a source URL. You can paste any portion of Kartra's page loader Embed code for the corresponding Kartra page as long as it includes the full source URL. KKP will extract the URL and discard the rest. This value will be remembered, so you don't need to supply it again unless you want to change it.
 1. Click the "Apply" button in the KCSG Kartra Pages control section. In Kartra Download mode, the stored content will be updated from the latest published version of your Kartra page. If successful, you will see a "Request complete" message.
 
-== Demonstration ==
-
-https://youtu.be/Aj0EitFeisM
-
 == Frequently Asked Questions ==
 
 = What are the advantages of Kartra Live mode over Kartra Download mode? =
@@ -146,13 +142,27 @@ KCSG Kartra Pages is a free plugin by Brian Katzung of Kappa Computer Solutions,
 
 1. This screenshot shows the selection of the KCSG Kartra Page page template and the KCSG Kartra Pages control section.
 
+== Videos ==
+
+Here's a demonstration of installation and operation:
+
+https://youtu.be/Aj0EitFeisM
+
 == Upgrade Notice ==
+
+= 0.0.10 =
+
+Documentation update only.
 
 = 0.0.8 And 0.0.9 =
 
 These are documentation updates only.
 
 == Changelog ==
+
+= 0.0.10 =
+
+* Added demonstration video
 
 = 0.0.9 =
 
