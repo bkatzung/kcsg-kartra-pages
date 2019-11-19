@@ -59,8 +59,10 @@ function kcsgKpErrorText (t) {
     return '<span style="color: red;">' + t + '</span>';
 }
 
-jQuery('#kcsg_kp_apply').click(function () {
-    var postId = wp.data.select('core/editor').getCurrentPostId();
+jQuery('#kcsg_kp_apply').click(function (e) {
+    e.preventDefault();
+    var editor = wp.data.select('core/editor');
+    var postId = editor ? editor.getCurrentPostId() : jQuery('#post_ID').val();
     if (null === postId) {
 	jQuery('#kcsg_kp_message').html(kcsgKpErrorText('$save_first'));
 	return;

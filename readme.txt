@@ -3,8 +3,8 @@ Contributors: bkatzung
 Donate link: https://kcsg.krtra.com/t/U8MKk5qeQXYf
 Tags: Kartra, KCSG, Tools For Kartra, pages, loading, embedding, templates
 Requires at least: 5.2.4
-Tested up to: 5.2.4
-Stable tag: 0.0.10
+Tested up to: 5.3
+Stable tag: 0.0.11
 Requires PHP: 5.6.30
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -150,6 +150,10 @@ https://youtu.be/Aj0EitFeisM
 
 == Upgrade Notice ==
 
+= 0.0.11 =
+
+This includes an important update if you (might ever) use the classic editor.
+
 = 0.0.10 =
 
 Documentation update only.
@@ -159,6 +163,10 @@ Documentation update only.
 These are documentation updates only.
 
 == Changelog ==
+
+= 0.0.11 =
+
+* Changed the template settings implementation to be backward-compatible with the classic editor.
 
 = 0.0.10 =
 
