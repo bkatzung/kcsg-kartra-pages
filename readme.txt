@@ -4,7 +4,7 @@ Donate link: https://kcsg.krtra.com/t/U8MKk5qeQXYf
 Tags: Kartra, KCSG, Tools For Kartra, pages, loading, embedding, templates
 Requires at least: 5.2.4
 Tested up to: 5.3
-Stable tag: 0.0.11
+Stable tag: 0.1.0
 Requires PHP: 5.6.30
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -42,8 +42,9 @@ Kartra Live mode produces a "live Kartra page in an iframe" result similar
 to WordPress mode, but with a couple of differences:
 
 1. You paste the Kartra Embed code (or URL portion from it) into the Embed code/URL input of the KCSG Kartra Pages controls area in the page editor instead of into a custom HTML block.
-2. When you select the Kartra Live option and click Apply, KKP uses a custom, second-stage page loader script which will be served directly from WordPress.
-3. The custom page loader uses your WordPress site icons instead of the Kartra site icons (so you won't need to associate your Kartra pages with a custom domain in order to get the site icon branding that's already on your WordPress domain).
+2. When you select the Kartra Live option and click Apply, KKP saves a copy of SEO settings and Open Graph data from Kartra in WordPress.
+3. The custom page loader includes the SEO and Open Graph data previously fetched from Kartra and serves the second-stage page loader script directly from WordPress.
+4. The custom page loader uses your WordPress site icons instead of the Kartra site icons (so you won't need to associate your Kartra pages with a custom domain in order to get the site icon branding that's already on your WordPress domain).
 
 Once set up, A WordPress visitor's browser will display a Kartra page in Kartra Live mode by following this three-step process:
 
@@ -51,7 +52,7 @@ Once set up, A WordPress visitor's browser will display a Kartra page in Kartra 
 2. The browser loads the Kartra page from Kartra based on the page-loader script
 3. The browser loads any additional assets referenced by the Kartra page
 
-In this mode, you do not need to do anything in WordPress when you publish page changes in Kartra.
+In this mode, you do not need to do anything in WordPress when you publish page changes in Kartra unless you update SEO and/or Open Graph settings (in which case you'll need to click "Apply" to update the settings stored in WordPress).
 
 Important: Because this mode is tuned for displaying Kartra-built pages, it elminates most of the overhead for supporting WordPress pages. A consequence of this is that any WordPress configuration for applying things like pixels, tracking, analytics, etc. will likely not work in Kartra Live mode. Use the corresponding Kartra page settings instead.
 
@@ -114,11 +115,12 @@ In comparison, KKP's Kartra Live mode...
 * Uses a very-low-overhead, Kartra-tuned page-loading process
 * Is designed to reduce the chances of page-loading loops sometimes observed when using Blank Slate
 * Saves a custom page loader in WordPress, saving a step in the display process
+* Provides SEO and Open Graph information even without JavaScript execution (improving SEO and allowing things like Facebook link details to display properly)
 * Uses your WordPress site icons instead of Kartra site icons
 
 KKP's Kartra Download mode:
 
-* Saves a snapshot of your published Katra page directly in the WordPress database, eliminating several steps in the display process
+* Saves a snapshot of your published Katra page (also including SEO and Open Graph information) directly in the WordPress database, eliminating several steps in the display process
 * Also uses your WordPress site icons instead of Kartra site icons
 * Ensures SEO efforts will be attributed to your WordPress domain
 
@@ -150,19 +152,19 @@ https://youtu.be/Aj0EitFeisM
 
 == Upgrade Notice ==
 
+= 0.1.0 =
+
+SEO and Open Graph is now stored in WordPress for Kartra Live mode (and updated when you click "Apply"). This allows Facebook link details to be displayed, for example. This update is therefore highly recommended if you use Live mode.
+
 = 0.0.11 =
 
 This includes an important update if you (might ever) use the classic editor.
 
-= 0.0.10 =
-
-Documentation update only.
-
-= 0.0.8 And 0.0.9 =
-
-These are documentation updates only.
-
 == Changelog ==
+
+= 0.1.0 =
+
+* Kartra Live mode now caches SEO and Open Graph information in WordPress
 
 = 0.0.11 =
 

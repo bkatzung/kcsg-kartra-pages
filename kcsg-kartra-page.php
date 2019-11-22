@@ -31,7 +31,10 @@ function kcsg_kp_send_head() {
 }
 
 // Render our custom page-loader page
-function kcsg_kp_loader_page( $url ) {
+function kcsg_kp_loader_page( $url_info ) {
+    list( $url, $raw_info ) = explode( "\n", $url_info, 2 );
+    $info = (array) json_decode( $raw_info );
+
     /*
      * Escape URL for non-display, in in-line JS string (all of which
      * *ought* to have zero effect on our "safe", sanitized URL values).
@@ -40,12 +43,19 @@ function kcsg_kp_loader_page( $url ) {
 ?><!doctype html>
 <html>
 <head>
-<meta name='viewport' content='width=device-width, initial-scale=1.0'>
+<?php
+if ( isset( $info[ 'meta' ] ) ) {
+    // Use cached meta-data when available
+    echo join( "\n", $info[ 'meta' ] ), "\n";
+} else {
+?><meta name='viewport' content='width=device-width, initial-scale=1.0'>
 <meta name='description' content=''>
 <meta name='keywords' content=''>
 <meta name='robots' content=''>
-<?php wp_site_icon(); ?>
-<script>
+<?php
+}
+wp_site_icon();
+?><script>
 document.addEventListener('DOMContentLoaded', function () {
     var page = document.getElementById('page');
     var reloadable = true;

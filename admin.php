@@ -244,22 +244,28 @@ function kcsg_kp_fetch_page( $given_url, $mode ) {
     // By this point, we need the embedded-page URL specifically
     if ( false === strpos( $url, '.kartra.com/page_embed/' ) ) return '';
 
-    if ( 'script' === $mode ) {
-	/*
-	 * We'll be using our custom page-loader script, so all we need
-	 * to save is the embedded-page URL.
-	 */
-	return "LOAD $url";
-    }
-
     /*
-     * Fetch the Kartra page HTML for Kartra Download mode. No validation.
-     * No sanitization. No escaping. No holodeck safety protocols. Just the
-     * raw HTML they would get directly from Kartra... with one exception.
+     * Fetch the Kartra page HTML. No validation. No sanitization.
+     * No escaping. No holodeck safety protocols. Just the raw HTML
+     * they would get directly from Kartra... with one exception.
      */
     $page = '';
     $page = @file_get_contents( esc_url_raw( $url ) );
     if ( false === $page ) return '';
+
+    if ( 'script' === $mode ) {
+	/*
+	 * We'll be using our custom page-loader script, so save only the
+	 * embedded-page URL and meta data.
+	 */
+	if ( preg_match( '/<head.*<\/head>/is', $page, $head_matches ) &&
+	  preg_match_all( '/<title>.*<\/title>|<meta[^>]*>/is', $head_matches[ 0 ], $meta_matches ) ) {
+	    return "LOAD $url\n" . json_encode( array( 'meta' => $meta_matches[ 0 ] ) );
+	} else {
+	    // Meta-fetch failed!?
+	    return "LOAD $url";
+	}
+    }
 
     // Return the page with locally-configured WordPress site icons
     return preg_replace( '/<link[^>]+rel=.(?:shortcut )?icon[^>]+>/', kcsg_kp_site_icons(), $page );
