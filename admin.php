@@ -61,7 +61,7 @@ function kcsgKpErrorText (t) {
 
 jQuery('#kcsg_kp_apply').click(function (e) {
     e.preventDefault();
-    var editor = wp.data.select('core/editor');
+    var editor = window.wp && wp.data && wp.data.select && wp.data.select( 'core/editor' );
     var postId = editor ? editor.getCurrentPostId() : jQuery('#post_ID').val();
     if (null === postId) {
 	jQuery('#kcsg_kp_message').html(kcsgKpErrorText('$save_first'));
