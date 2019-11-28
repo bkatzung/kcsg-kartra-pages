@@ -100,16 +100,16 @@ function kcsg_kp_page_modes( $mode ) {
 
     $blank_c = $script_c = $cache_c = '';
     switch ( $mode ) {
-    case 'blank':	# WordPress
-	$blank_c = ' checked';
-	break;
-
     case 'cache':	# Kartra Download
 	$cache_c = ' checked';
 	break;
 
     case 'script':	# Kartra Live
 	$script_c = ' checked';
+	break;
+
+    default:		# (blank) WordPress
+	$blank_c = ' checked';
 	break;
     }
 
