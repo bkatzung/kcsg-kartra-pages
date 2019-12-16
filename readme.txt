@@ -4,7 +4,7 @@ Donate link: https://kcsg.krtra.com/t/U8MKk5qeQXYf
 Tags: Kartra, KCSG, Tools For Kartra, pages, loading, embedding, templates
 Requires at least: 5.2.4
 Tested up to: 5.3
-Stable tag: 0.1.2
+Stable tag: 0.1.3
 Requires PHP: 5.6.30
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -152,6 +152,10 @@ https://youtu.be/Aj0EitFeisM
 
 == Upgrade Notice ==
 
+= 0.1.3 =
+
+Pages might not display properly in WordPress mode without this upgrade!
+
 = 0.1.1 =
 
 Improve compatibility with classic editor.
@@ -165,6 +169,10 @@ SEO and Open Graph is now stored in WordPress for Kartra Live mode (and updated 
 This includes an important update if you (might ever) use the classic editor.
 
 == Changelog ==
+
+= 0.1.3 =
+
+* Fixed WordPress-mode closing </title> tag.
 
 = 0.1.2 =
 
