@@ -22,7 +22,7 @@ function kcsg_kp_send_head() {
     <meta charset="<?php bloginfo( 'charset' ); ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 <?php if ( ! get_theme_support( 'title-tag' ) ) { ?>
-    <title><?php wp_title(); ?><title>
+    <title><?php wp_title(); ?></title>
 <?php }
     wp_head();
 ?></head>
