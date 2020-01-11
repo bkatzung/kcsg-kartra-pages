@@ -3,25 +3,43 @@ Contributors: bkatzung
 Donate link: https://kcsg.krtra.com/t/U8MKk5qeQXYf
 Tags: Kartra, KCSG, Tools For Kartra, pages, loading, embedding, templates
 Requires at least: 5.2.4
-Tested up to: 5.3
-Stable tag: 0.1.3
+Tested up to: 5.3.2
+Stable tag: 1.0.0
 Requires PHP: 5.6.30
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
-Display Kartra pages in WordPress ("live" or downloaded) *BETA*
+An advanced plugin for displaying Kartra Page Builder pages in WordPress
 
 == Description ==
 
-KCSG Kartra Pages (KKP) extends any theme by adding a custom page template specifically designed for displaying Kartra-built pages via your WordPress site.
+KCSG Kartra Pages (KKP) is a Kartra-specific alternative to Kartra's original recommendation of using the generic Blank Slate plugin for embedding Kartra Page Builder pages within your WordPress website.
 
-**Note: This plugin is currently in beta testing.**
+Here is why you should use KKP instead of Blank Slate for embedding Kartra pages in WordPress:
 
-If you would like to particpate, please notify [Brian Katzung](https://m.me/briankatzung) and join the [KCSG Tools For Kartra Facebook group](https://facebook.com/groups/kcsgtfk).
+1. Due to a quirk in the way Kartra works, Kartra pages embedded with Blank Slate are known to get stuck in a loop and fail to display for many users on some devices (especially iPhone and iPad users). Blank Slate isn't to blame for the issue, but it's generic, whereas KKP is Kartra-specific, accounts for the quirk, and does not have this issue.
+2. KKP provides enhanced SEO and OpenGraph support (so that links on social media display properly, for example).
+3. KKP displays the Kartra content with fewer network requests and with less overhead meant for displaying WordPress pages that is not used when displaying Kartra pages.
+4. KKP offers the option to easily download Kartra pages and store them in the WordPress database to be served directly from WordPress.
+5. In the Kartra template modes (see the Operation and related sections), KKP uses your WordPress site icon configuration so that you don't need to assign your Kartra pages to a custom domain in order to get your custom site icons.
 
-The template operates in one of three modes chosen from controls provided in the page editor:
+== Installation ==
 
-= "WordPress" Mode =
+1. Upload the plugin files to the "/wp-content/plugins/kcsg-kartra-pages" directory, or install the plugin via the WordPress plugins screen.
+1. Activate the plugin via the WordPress plugins screen.
+
+See the "Operation" section for operating instructions.
+
+== Operation ==
+
+1. Create a new page or edit an existing page where you want your Kartra page to appear (the template and controls are only available for pages, not for posts).
+1. Select the "KCSG Kartra Page" template from the Template drop-down in the Page Attributes section and save or update the page. Do NOT use the KCSG Kartra Pages "Apply" button for this step.
+1. Locate the "KCSG Kartra Pages" controls section below the page content and click the open arrow to open it if necessary.
+1. Choose the desired template mode ("WordPress" Mode, "Kartra Live" Mode, or "Kartra Download" Mode). See the sections with the corresponding names for details on each mode.
+1. In order to use the Kartra modes, you must supply a source URL. You can paste any portion of Kartra's page loader Embed code for the corresponding Kartra page as long as it includes the full source URL. KKP will extract the URL and discard the rest. This value will be remembered, so you don't need to supply it again unless you want to change it.
+1. Click the "Apply" button in the KCSG Kartra Pages control section. The SEO and OpenGraph information (in Kartra Live Mode) or the entire page (in Kartra Download mode) will be retrieved from the latest published version of your Kartra page and stored in WordPress. When successful, you will see a "Request complete" message.
+
+== "WordPress" Mode ==
 
 In WordPress mode (the default), KKP just displays the native WordPress content on a minimal page. This mode is equivalent to the Blank Slate plugin by Aaron Reimann et al.
 
@@ -36,7 +54,7 @@ Once set up, a WordPress visitor's browser would display the Kartra page by foll
 3. The browser loads the Kartra page from Kartra based on the page-loader script
 4. The browser loads any additional assets referenced by the Kartra page
 
-= "Kartra Live" Mode =
+== "Kartra Live" Mode =
 
 Kartra Live mode produces a "live Kartra page in an iframe" result similar
 to WordPress mode, but with a couple of differences:
@@ -56,7 +74,7 @@ In this mode, you do not need to do anything in WordPress when you publish page 
 
 Important: Because this mode is tuned for displaying Kartra-built pages, it elminates most of the overhead for supporting WordPress pages. A consequence of this is that any WordPress configuration for applying things like pixels, tracking, analytics, etc. will likely not work in Kartra Live mode. Use the corresponding Kartra page settings instead.
 
-= "Kartra Download" Mode =
+== "Kartra Download" Mode ==
 
 In Kartra Download mode, a snapshot of the most recently published Kartra page (but with your WordPress site icons instead of Kartra site icons) is stored in, and served directly from, the WordPress database.
 
@@ -72,27 +90,13 @@ Once set up, a WordPress visitor's browser will display a Kartra page in Kartra 
 
 Important: Per Kartra, due to cross-domain cookie restrictions, some tracking might not be accurate in download-to-server configurations (including KKP's Kartra Download mode). On pages where this is a concern, please use Kartra Live mode instead.
 
-== Installation ==
-
-1. Upload the plugin files to the "/wp-content/plugins/kcsg-kartra-pages" directory, or install the plugin via the WordPress plugins screen.
-1. Activate the plugin via the WordPress plugins screen.
-
-See the "Operation" section for operating instructions.
-
-== Operation ==
-
-1. Create a new page or edit an existing page where you want your Kartra page to appear (the template and controls are only available for pages, not for posts).
-1. Select the "KCSG Kartra Page" template from the Template drop-down in the Page Attributes section and save or update the page. Do NOT use the KCSG Kartra Pages "Apply" button for this step.
-1. Locate the "KCSG Kartra Pages" controls section below the page content and click the open arrow to open it if necessary.
-1. Choose the desired template mode.
-1. In order to use the Kartra modes, you must supply a source URL. You can paste any portion of Kartra's page loader Embed code for the corresponding Kartra page as long as it includes the full source URL. KKP will extract the URL and discard the rest. This value will be remembered, so you don't need to supply it again unless you want to change it.
-1. Click the "Apply" button in the KCSG Kartra Pages control section. In Kartra Download mode, the stored content will be updated from the latest published version of your Kartra page. If successful, you will see a "Request complete" message.
-
 == Frequently Asked Questions ==
 
 = What are the advantages of Kartra Live mode over Kartra Download mode? =
 
-In Live mode, the content is always loaded directly from Kartra's infrastructure, so visitors will always get the most recently published version without any additional action required on your part.
+In Live mode, the displayed content is always loaded directly from Kartra's infrastructure, so visitors will always get the most recently published version without any additional action required on your part.
+
+The only exception to the above is the page SEO and OpenGraph information, which is stored in WordPress so that it can be presented to search engines and websites that do not execute JavaScript. You will need to click on the Apply button to refresh this information if you change it in Kartra.
 
 Content is delivered in iframes using the standard kartra domains, so tracking and analytics should all work as normal.
 
@@ -169,6 +173,10 @@ SEO and Open Graph is now stored in WordPress for Kartra Live mode (and updated 
 This includes an important update if you (might ever) use the classic editor.
 
 == Changelog ==
+
+= 1.0.0 =
+
+* Post-beta release with updated documentation.
 
 = 0.1.3 =
 

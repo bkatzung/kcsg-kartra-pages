@@ -4,7 +4,7 @@
  *
  * Author: Brian Katzung, Kappa Computer Solutions, LLC <briank@kappacs.com>
  * License: GPL3 or later
- * Copyright 2019 by Brian Katzung and Kappa Computer Solutions, LLC
+ * Copyright 2019-2020 by Brian Katzung and Kappa Computer Solutions, LLC
  */
 
 add_action( 'add_meta_boxes', 'kcsg_kp_add_meta_boxes' );
