@@ -4,7 +4,7 @@ Donate link: https://kcsg.krtra.com/t/U8MKk5qeQXYf
 Tags: Kartra, KCSG, Tools For Kartra, pages, loading, embedding, templates
 Requires at least: 5.2.4
 Tested up to: 5.3.2
-Stable tag: 1.0.0
+Stable tag: 1.0.1
 Requires PHP: 5.6.30
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -22,6 +22,8 @@ Here is why you should use KKP instead of Blank Slate for embedding Kartra pages
 3. KKP displays the Kartra content with fewer network requests and with less overhead meant for displaying WordPress pages that is not used when displaying Kartra pages.
 4. KKP offers the option to easily download Kartra pages and store them in the WordPress database to be served directly from WordPress.
 5. In the Kartra template modes (see the Operation and related sections), KKP uses your WordPress site icon configuration so that you don't need to assign your Kartra pages to a custom domain in order to get your custom site icons.
+
+For the latest news and information, please join the [KCSG Tools For Kartra Facebook group](https://facebook.com/groups/kcsgtfk).
 
 == Installation ==
 
