@@ -165,7 +165,7 @@ function kcsg_kp_ajax_set() {
 	     */
 	    $new_url = str_replace( '/page/', '/page_embed/', $new_url );
 	}
-    } else {
+    } else if ( ! is_kartra_tracking_link ( $new_url ) ) {
 	kcsg_kp_return_fail( __( 'A kartra.com page URL is required. For custom-domain pages, use the page Embed code.' ) );
     }
 
@@ -209,6 +209,12 @@ if ( ! function_exists( 'is_kartra_page_url' ) ) {
     }
 }
 
+if ( ! function_exists( 'is_kartra_tracking_link' ) ) {
+    function is_kartra_tracking_link( $url ) {
+	return preg_match( '/^https:\/\/[_a-z0-9-]+\.ka?rtra\.com\/(t|analytics)\//i', $url );
+    }
+}
+
 // Return an AJAX success status
 function kcsg_kp_return_done( $mode, $url, $text ) {
     $modes = kcsg_kp_page_modes( $mode );
@@ -242,7 +248,7 @@ function kcsg_kp_fetch_page( $given_url, $mode ) {
     }
 
     // By this point, we need the embedded-page URL specifically
-    if ( false === strpos( $url, '.kartra.com/page_embed/' ) ) return '';
+    if ( !is_kartra_tracking_link( $url ) && false === strpos( $url, '.kartra.com/page_embed/' ) ) return '';
 
     /*
      * Fetch the Kartra page HTML. No validation. No sanitization.

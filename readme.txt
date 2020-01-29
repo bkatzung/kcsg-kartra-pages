@@ -4,7 +4,7 @@ Donate link: https://kcsg.krtra.com/t/U8MKk5qeQXYf
 Tags: Kartra, KCSG, Tools For Kartra, pages, loading, embedding, templates
 Requires at least: 5.2.4
 Tested up to: 5.3.2
-Stable tag: 1.0.1
+Stable tag: 1.0.2
 Requires PHP: 5.6.30
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -21,6 +21,7 @@ Here is why you should use KKP instead of Blank Slate for embedding Kartra pages
 2. KKP provides enhanced SEO and OpenGraph support (so that links on social media display properly, for example).
 3. KKP displays the Kartra content with fewer network requests and with less overhead meant for displaying WordPress pages that is not used when displaying Kartra pages.
 4. KKP offers the option to easily download Kartra pages and store them in the WordPress database to be served directly from WordPress.
+5. KKP can also work with Kartra tracking links, making their capabilities conveniently available from your WordPress domain
 5. In the Kartra template modes (see the Operation and related sections), KKP uses your WordPress site icon configuration so that you don't need to assign your Kartra pages to a custom domain in order to get your custom site icons.
 
 For the latest news and information, please join the [KCSG Tools For Kartra Facebook group](https://facebook.com/groups/kcsgtfk).
@@ -61,7 +62,7 @@ Once set up, a WordPress visitor's browser would display the Kartra page by foll
 Kartra Live mode produces a "live Kartra page in an iframe" result similar
 to WordPress mode, but with a couple of differences:
 
-1. You paste the Kartra Embed code (or URL portion from it) into the Embed code/URL input of the KCSG Kartra Pages controls area in the page editor instead of into a custom HTML block.
+1. You paste the Kartra Embed code (or URL portion from it, or a Kartra tracking link URL) into the Embed code/URL input of the KCSG Kartra Pages controls area in the page editor instead of into a custom HTML block.
 2. When you select the Kartra Live option and click Apply, KKP saves a copy of SEO settings and Open Graph data from Kartra in WordPress.
 3. The custom page loader includes the SEO and Open Graph data previously fetched from Kartra and serves the second-stage page loader script directly from WordPress.
 4. The custom page loader uses your WordPress site icons instead of the Kartra site icons (so you won't need to associate your Kartra pages with a custom domain in order to get the site icon branding that's already on your WordPress domain).
@@ -74,7 +75,9 @@ Once set up, A WordPress visitor's browser will display a Kartra page in Kartra 
 
 In this mode, you do not need to do anything in WordPress when you publish page changes in Kartra unless you update SEO and/or Open Graph settings (in which case you'll need to click "Apply" to update the settings stored in WordPress).
 
-Important: Because this mode is tuned for displaying Kartra-built pages, it elminates most of the overhead for supporting WordPress pages. A consequence of this is that any WordPress configuration for applying things like pixels, tracking, analytics, etc. will likely not work in Kartra Live mode. Use the corresponding Kartra page settings instead.
+Note 1: Because this mode is tuned for displaying Kartra-built pages, it elminates most of the overhead for supporting WordPress pages. A consequence of this is that any WordPress configuration for applying things like pixels, tracking, analytics, etc. will likely not work in Kartra Live mode. Use the corresponding Kartra page settings instead.
+
+Note 2: When using this mode with Kartra split-test or conditional tracking link URLs, the embedded iframe page content may potentially vary from visit to visit. As only the single most recent snapshot of SEO and OG data is kept, it will not. Please keep this in mind when configuring your Kartra page settings in such situations.
 
 == "Kartra Download" Mode ==
 
@@ -175,6 +178,10 @@ SEO and Open Graph is now stored in WordPress for Kartra Live mode (and updated 
 This includes an important update if you (might ever) use the classic editor.
 
 == Changelog ==
+
+= 1.0.2 =
+
+* Now also works with a Kartra tracking link as the Page URL.
 
 = 1.0.0 =
 
