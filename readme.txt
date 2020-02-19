@@ -4,7 +4,7 @@ Donate link: https://kcsg.krtra.com/t/U8MKk5qeQXYf
 Tags: Kartra, KCSG, Tools For Kartra, pages, loading, embedding, templates
 Requires at least: 5.2.4
 Tested up to: 5.3.2
-Stable tag: 1.0.2
+Stable tag: 1.0.3
 Requires PHP: 5.6.30
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -21,7 +21,7 @@ Here is why you should use KKP instead of Blank Slate for embedding Kartra pages
 2. KKP provides enhanced SEO and OpenGraph support (so that links on social media display properly, for example).
 3. KKP displays the Kartra content with fewer network requests and with less overhead meant for displaying WordPress pages that is not used when displaying Kartra pages.
 4. KKP offers the option to easily download Kartra pages and store them in the WordPress database to be served directly from WordPress.
-5. KKP can also work with Kartra tracking links, making their capabilities conveniently available from your WordPress domain
+5. KKP can also work with Kartra tracking links (including split-testing links and conditional-redirection links), making their capabilities conveniently available from your WordPress domain.
 5. In the Kartra template modes (see the Operation and related sections), KKP uses your WordPress site icon configuration so that you don't need to assign your Kartra pages to a custom domain in order to get your custom site icons.
 
 For the latest news and information, please join the [KCSG Tools For Kartra Facebook group](https://facebook.com/groups/kcsgtfk).
@@ -95,6 +95,16 @@ Once set up, a WordPress visitor's browser will display a Kartra page in Kartra 
 
 Important: Per Kartra, due to cross-domain cookie restrictions, some tracking might not be accurate in download-to-server configurations (including KKP's Kartra Download mode). On pages where this is a concern, please use Kartra Live mode instead.
 
+== Troubleshooting ==
+
+= Why do I get "Page Not Found"? =
+
+This usually indicates that you have not changed the page template to KCSG Kartra Page and then saved/updated the page.
+
+= Why do I get "No contents found"? =
+
+This usually indicates that the "CURL" PHP functions are disabled on your system. Check your php.ini configuration file or control panel, or contact your ISP to make sure they're enabled, as appropriate.
+
 == Frequently Asked Questions ==
 
 = What are the advantages of Kartra Live mode over Kartra Download mode? =
@@ -152,6 +162,8 @@ KCSG Kartra Pages is a free plugin by Brian Katzung of Kappa Computer Solutions,
 == Screenshots ==
 
 1. This screenshot shows the selection of the KCSG Kartra Page page template and the KCSG Kartra Pages control section.
+
+2. You MUST set the page template to KCSG Kartra Page and save or update the page before setting the template mode in the KCSG Kartra Pages control section.
 
 == Videos ==
 
