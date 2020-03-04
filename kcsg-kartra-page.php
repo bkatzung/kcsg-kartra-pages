@@ -55,7 +55,7 @@ if ( isset( $info[ 'meta' ] ) ) {
 <?php
 }
 wp_site_icon();
-?><script>
+?><script data-cfasync='false' type='text/javascript'>
 document.addEventListener('DOMContentLoaded', function () {
     var page = document.getElementById('page');
     var reloadable = true;
