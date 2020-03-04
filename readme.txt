@@ -211,6 +211,18 @@ This includes an important update if you (might ever) use the classic editor.
 
 == Changelog ==
 
+= 1.0.5 =
+
+Add data-cfasync='false' to the template page loader script so that it doesn't get broken by Cloudflare's Rocket Loader feature (resulting in pages coming up blank).
+
+= 1.0.4 =
+
+Download Kartra content using CURL instead of file_get_contents in order to avoid the need for the PHP allow_url_fopen option to be enabled.
+
+= 1.0.3 =
+
+* Documentation changes
+
 = 1.0.2 =
 
 * Now also works with a Kartra tracking link as the Page URL.
