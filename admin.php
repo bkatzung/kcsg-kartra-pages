@@ -230,13 +230,35 @@ function kcsg_kp_return_fail( $text ) {
     // No return
 }
 
+if ( ! function_exists( 'url_get_contents' ) ) {
+    function url_get_contents( $url ) {
+	$ch = curl_init( $url );
+	if ( false === $ch ) return false;
+
+	if ( curl_setopt_array( $ch, array(
+	    CURLOPT_AUTOREFERER => TRUE,
+	    CURLOPT_HEADER => 0,
+	    CURLOPT_RETURNTRANSFER => 1,
+	    CURLOPT_FOLLOWLOCATION => TRUE,
+	    CURLOPT_SSL_VERIFYPEER => FALSE,
+	) ) ) {
+	    $result = curl_exec( $ch );
+	} else {
+	    $result = false;
+	}
+	curl_close( $ch );
+	return $result;
+    }
+}
+
 // Fetch whatever we'll need to display the page
 function kcsg_kp_fetch_page( $given_url, $mode ) {
     if ( false !== strpos( $given_url, '.kartra.com/page/embed/' ) ) {
 	// Fetch the page loader if given the page-loader URL
 	$loader = '';
 	// NB: PHP-recommended urlencode does NOT work!
-	$loader = @file_get_contents( esc_url_raw( $given_url ) );
+	// $loader = @file_get_contents( esc_url_raw( $given_url ) );
+	$loader = @url_get_contents( $given_url );
 
 	// Extract/sanitize/validate the embedded-page URL from the page loader
 	if ( false === $loader || ! preg_match( "/= '(https:[_a-z0-9\/.-]+)'/i", $loader, $matches ) ) return '';
@@ -256,7 +278,8 @@ function kcsg_kp_fetch_page( $given_url, $mode ) {
      * they would get directly from Kartra... with one exception.
      */
     $page = '';
-    $page = @file_get_contents( esc_url_raw( $url ) );
+    // $page = @file_get_contents( esc_url_raw( $url ) );
+    $page = @url_get_contents( $url );
     if ( false === $page ) return '';
 
     if ( 'script' === $mode ) {

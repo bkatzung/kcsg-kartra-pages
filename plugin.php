@@ -3,7 +3,7 @@
  * Plugin Name: KCSG Kartra Pages
  * Plugin URI: http://t1.kappacs.com/kcsg-kp
  * Description: Display Kartra pages on your WordPress site
- * Version: 1.0.3
+ * Version: 1.0.4
  * Author: Brian Katzung, Kappa Computer Solutions, LLC <briank@kappacs.com>
  * Copyright: 2019-2020 by Brian Katzung and Kappa Computer Solutions, LLC
  * License: GPLv3 or later

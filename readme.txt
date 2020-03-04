@@ -4,7 +4,7 @@ Donate link: https://kcsg.krtra.com/t/U8MKk5qeQXYf
 Tags: Kartra, KCSG, Tools For Kartra, pages, loading, embedding, templates
 Requires at least: 5.2.4
 Tested up to: 5.3.2
-Stable tag: 1.0.3
+Stable tag: 1.0.4
 Requires PHP: 5.6.30
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -125,6 +125,22 @@ Download mode does more work in advance so that fewer steps and fewer network re
 
 Important: Per Kartra, due to cross-domain cookie restrictions, some tracking might not be accurate in download-to-server configurations (including KKP's Kartra Download mode). On pages where this is a concern, please use Kartra Live mode instead.
 
+= Can I use WordPress SEO (Search Engine Optimization) features with KCSG Kartra Pages? =
+
+KKP only includes the standard WordPress header and footer code in WordPress mode as that is the only mode that displays native WordPress content.
+
+Any WordPress SEO (or other) features that are added to pages via the WordPress header (as most are) will therefore not be applied to pages in the Live or Download modes.
+
+Any "off-page" features (such as XML sitemaps) should still work.
+
+= Why don't the Kartra modes include the WordPress header and footer? =
+
+Several reasons:
+
+Loading the WordPress header and footer content could slow down the page loading process by loading either unncessary or duplicate assets, or in some cases even break the page display by loading conflicting assets.
+
+In Kartra Live mode, any included SEO settings would end up being applied to a light-weight framework that's only responsible for loading the real (Kartra) content in an "iframe" and which contains no useful content of its own.
+
 = How does KCSG Kartra Pages compare to Aaron Reimann's Blank Slate? =
 
 KKP's WordPress mode should be virtually identical in function to Blank Slate.
@@ -172,6 +188,10 @@ Here's a demonstration of installation and operation:
 https://youtu.be/Aj0EitFeisM
 
 == Upgrade Notice ==
+
+= 1.0.4 =
+
+As of this version, PHP CURL support is sufficient for operation; the less-secure allow_url_fopen setting is no longer required.
 
 = 0.1.3 =
 
