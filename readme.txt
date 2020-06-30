@@ -3,8 +3,8 @@ Contributors: bkatzung
 Donate link: https://kcsg.krtra.com/t/U8MKk5qeQXYf
 Tags: Kartra, KCSG, Tools For Kartra, pages, loading, embedding, templates
 Requires at least: 5.2.4
-Tested up to: 5.4
-Stable tag: 1.0.6
+Tested up to: 5.4.2
+Stable tag: 1.0.7
 Requires PHP: 5.6.30
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -189,6 +189,10 @@ https://youtu.be/Aj0EitFeisM
 
 == Upgrade Notice ==
 
+= 1.0.7 =
+
+This critical fix allows Kartra Download mode to work properly after changes made by Kartra.
+
 = 1.0.4 =
 
 As of this version, PHP CURL support is sufficient for operation; the less-secure allow_url_fopen setting is no longer required.
@@ -210,6 +214,10 @@ SEO and Open Graph is now stored in WordPress for Kartra Live mode (and updated 
 This includes an important update if you (might ever) use the classic editor.
 
 == Changelog ==
+
+= 1.0.7 =
+
+A <base> tag is now added to the saved page in Kartra Download mode as Kartra code is now referencing some assets with relative paths.
 
 = 1.0.5 =
 

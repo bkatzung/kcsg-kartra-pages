@@ -296,8 +296,13 @@ function kcsg_kp_fetch_page( $given_url, $mode ) {
 	}
     }
 
-    // Return the page with locally-configured WordPress site icons
-    return preg_replace( '/<link[^>]+rel=.(?:shortcut )?icon[^>]+>/', kcsg_kp_site_icons(), $page );
+    // Add <base> to pick up relative-path resources
+    $page = preg_replace( '/<head.*?>/is', '$0<base href="' . esc_attr( $url ) . '">', $page );
+
+    // Use locally-configured WordPress site icons
+    $page = preg_replace( '/<link[^>]+rel=.(?:shortcut )?icon[^>]+>/', kcsg_kp_site_icons(), $page );
+
+    return $page;
 }
 
 // Capture the site icon tags as a string
