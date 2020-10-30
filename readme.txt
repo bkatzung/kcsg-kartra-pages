@@ -3,8 +3,8 @@ Contributors: bkatzung
 Donate link: https://kcsg.krtra.com/t/U8MKk5qeQXYf
 Tags: Kartra, KCSG, Tools For Kartra, pages, loading, embedding, templates
 Requires at least: 5.2.4
-Tested up to: 5.4.2
-Stable tag: 1.0.7
+Tested up to: 5.5.2
+Stable tag: 1.0.10
 Requires PHP: 5.6.30
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
