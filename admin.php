@@ -27,6 +27,7 @@ function kcsg_kp_render_meta( $post ) {
     $mode_section = esc_html__( 'KCSG Kartra Page Template Mode', 'kcsg-kartra-pages' );
     $source_or_url = esc_html__( 'Page Embed code or URL (copy and paste from Kartra)', 'kcsg-kartra-pages' );
     $apply = esc_html__( 'Apply', 'kcsg-kartra-pages' );
+    $warning = esc_html__( 'Important: Do not click on Update to apply KKP settings. Any KKP settings changes will be lost if you click on Update after clicking on Apply when the Custom Fields panel is enabled. To avoid this, refresh the page before making any non-KKP changes if you have clicked on Apply.', 'kcsg-kartra-pages' );
 
     // Localizations (HTML via JS)
     $save_first = esc_js( esc_html__( 'Please save draft or publish first.', 'kcsg-kartra-pages' ) );
@@ -42,6 +43,7 @@ function kcsg_kp_render_meta( $post ) {
 <p><label for='kcsg_kp_source'>$source_or_url</label></p>
 <p><input type='text' id='kcsg_kp_source' name='kcsg_kp_source' value='$esc_url' style='width: 90%;'></p>
 <p><button id='kcsg_kp_apply' style='margin-right: 1em;'>$apply</button> <span id='kcsg_kp_message'></span></p>
+<p>$warning</p>
 <script>
 function kcsgKpApplied (jr) {
     r = JSON.parse(jr);
@@ -298,6 +300,9 @@ function kcsg_kp_fetch_page( $given_url, $mode ) {
 
     // Add <base> to pick up relative-path resources
     $page = preg_replace( '/<head.*?>/is', '$0<base href="' . esc_attr( $url ) . '">', $page );
+
+    // Adjust unqualified Kartra /js script references to avoid caching issues
+    $page = preg_replace( '/<script src="\/js\//', '<script src="//app.kartra.com/js/', $page );
 
     // Use locally-configured WordPress site icons
     $page = preg_replace( '/<link[^>]+rel=.(?:shortcut )?icon[^>]+>/', kcsg_kp_site_icons(), $page );
