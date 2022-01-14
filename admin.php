@@ -4,7 +4,7 @@
  *
  * Author: Brian Katzung, Kappa Computer Solutions, LLC <briank@kappacs.com>
  * License: GPL3 or later
- * Copyright 2019-2020 by Brian Katzung and Kappa Computer Solutions, LLC
+ * Copyright 2019-2022 by Brian Katzung and Kappa Computer Solutions, LLC
  */
 
 add_action( 'add_meta_boxes', 'kcsg_kp_add_meta_boxes' );
@@ -20,12 +20,14 @@ function kcsg_kp_render_meta( $post ) {
     wp_nonce_field( plugin_basename( __FILE__ ), 'kcsg_kp' );
     $id = $post->ID;
     $mode = get_post_meta( $id, 'kcsg_kp_page_mode', true );
+    $gtmid = get_post_meta( $id, 'kcsg_kp_gtmid', true );
     $page_modes = kcsg_kp_page_modes( $mode );
     $url = get_post_meta( $id, 'kcsg_kp_url', true );
 
     // Localizations (HTML)
     $mode_section = esc_html__( 'KCSG Kartra Page Template Mode', 'kcsg-kartra-pages' );
     $source_or_url = esc_html__( 'Page Embed code or URL (copy and paste from Kartra)', 'kcsg-kartra-pages' );
+    $opt_gtmid = esc_html__( 'Optional Google Tag Manager ID (GTM-XXXXXX) for Kartra Live parent frame', 'kcsg-kartra-pages' );
     $apply = esc_html__( 'Apply', 'kcsg-kartra-pages' );
     $warning = esc_html__( 'Important: Do not click on Update to apply KKP settings. Any KKP settings changes will be lost if you click on Update after clicking on Apply when the Custom Fields panel is enabled. To avoid this, refresh the page before making any non-KKP changes if you have clicked on Apply.', 'kcsg-kartra-pages' );
 
@@ -36,12 +38,16 @@ function kcsg_kp_render_meta( $post ) {
 
     // Escape URL in input value attribute
     $esc_url = esc_attr( esc_url( $url ) );
+    // Escape GTM ID in input value attribute
+    $esc_gtmid = esc_attr( $gtmid );
 
     echo <<<HTML
 <p>$mode_section</p>
 <div id='kcsg_kp_page_modes'>$page_modes</div>
 <p><label for='kcsg_kp_source'>$source_or_url</label></p>
 <p><input type='text' id='kcsg_kp_source' name='kcsg_kp_source' value='$esc_url' style='width: 90%;'></p>
+<p><label for='kcsg_kp_gtmid'>$opt_gtmid</label></p>
+<p><input type='text' id='kcsg_kp_gtmid' name='kcsg_kp_gtmid' value='$esc_gtmid'></p>
 <p><button id='kcsg_kp_apply' style='margin-right: 1em;'>$apply</button> <span id='kcsg_kp_message'></span></p>
 <p>$warning</p>
 <script>
@@ -52,6 +58,9 @@ function kcsgKpApplied (jr) {
     }
     if (r.source) {
 	jQuery('#kcsg_kp_source').val(r.source);
+    }
+    if (undefined !== r.gtmid) {
+	jQuery('#kcsg_kp_gtmid').val(r.gtmid);
     }
     jQuery('#kcsg_kp_message').html(r.message ? r.message : '');
     jQuery('#kcsg_kp_apply').attr('disabled', false);
@@ -85,6 +94,7 @@ jQuery('#kcsg_kp_apply').click(function (e) {
 	'kcsg_kp': jQuery('#kcsg_kp [name=kcsg_kp]').val(),
 	'kcsg_kp_page_mode': jQuery('#kcsg_kp [name=kcsg_kp_page_mode]:checked').val(),
 	'kcsg_kp_source': jQuery('#kcsg_kp [name=kcsg_kp_source]').val(),
+	'kcsg_kp_gtmid': jQuery('#kcsg_kp [name=kcsg_kp_gtmid]').val(),
       }).done(kcsgKpApplied).fail(function () {
 	jQuery('#kcsg_kp_apply').attr('disabled', false);
 	jQuery('#kcsg_kp_message').html(kcsgKpErrorText('$request_failed'));
@@ -171,11 +181,15 @@ function kcsg_kp_ajax_set() {
 	kcsg_kp_return_fail( __( 'A kartra.com page URL is required. For custom-domain pages, use the page Embed code.' ) );
     }
 
+    // Sanitize and validate the Google Tag Manager ID
+    $new_gtmid = isset( $_POST[ 'kcsg_kp_gtmid' ] ) ? sanitize_gtm_id( $_POST[ 'kcsg_kp_gtmid' ] ) : '';
+
     // Refresh or clear the cache and page mode
     if ( 'blank' === $new_mode ) {
 	// No meta info needed for native WP content
 	delete_post_meta( $post_id, 'kcsg_kp_cache' );
 	delete_post_meta( $post_id, 'kcsg_kp_page_mode' );
+	delete_post_meta( $post_id, 'kcsg_kp_gtmid' );
     } else {
 	$new_cache = kcsg_kp_fetch_page( $new_url, $new_mode );
 	if ( '' === $new_cache ) {
@@ -185,6 +199,7 @@ function kcsg_kp_ajax_set() {
 	}
 	update_post_meta( $post_id, 'kcsg_kp_cache', wp_slash( $new_cache ) );
 	update_post_meta( $post_id, 'kcsg_kp_page_mode', $new_mode );
+	update_post_meta( $post_id, 'kcsg_kp_gtmid', $new_gtmid );
     }
 
     // Update or clear the source URL
@@ -194,7 +209,15 @@ function kcsg_kp_ajax_set() {
 	update_post_meta( $post_id, 'kcsg_kp_url', $new_url );
     }
 
-    kcsg_kp_return_done( $new_mode, $new_url, __( 'Request complete', 'kcsg-kartra-pages' ) );
+    kcsg_kp_return_done( $new_mode, $new_url, $new_gtmid, __( 'Request complete', 'kcsg-kartra-pages' ) );
+}
+
+if ( ! function_exists( 'sanitize_gtm_id' ) ) {
+    function sanitize_gtm_id( $gtmid ) {
+	// Accept GTM-XXXXXX
+	$san_id = sanitize_text_field( $gtmid );
+	return preg_match( '/^GTM-[A-Z0-9]+$/', $san_id ) ? $san_id : '';
+    }
 }
 
 if ( ! function_exists( 'sanitize_kartra_page_url' ) ) {
@@ -218,9 +241,9 @@ if ( ! function_exists( 'is_kartra_tracking_link' ) ) {
 }
 
 // Return an AJAX success status
-function kcsg_kp_return_done( $mode, $url, $text ) {
+function kcsg_kp_return_done( $mode, $url, $gtmid, $text ) {
     $modes = kcsg_kp_page_modes( $mode );
-    echo json_encode( array( 'status' => 'done', 'pageModes' => $modes, 'source' => $url, 'message' => esc_html( $text ) ) );
+    echo json_encode( array( 'status' => 'done', 'pageModes' => $modes, 'source' => $url, 'gtmid' => $gtmid, 'message' => esc_html( $text ) ) );
     wp_die();
     // No return
 }

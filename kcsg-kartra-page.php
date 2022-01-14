@@ -7,7 +7,7 @@
  *
  * Author: Brian Katzung, Kappa Computer Solutions, LLC <briank@kappacs.com>
  * License: GPL3 or later
- * Copyright 2019-2020 by Brian Katzung and Kappa Computer Solutions, LLC
+ * Copyright 2019-2022 by Brian Katzung and Kappa Computer Solutions, LLC
  */
 $kcsg_kp_sent_head = false;
 
@@ -31,9 +31,10 @@ function kcsg_kp_send_head() {
 }
 
 // Render our custom page-loader page
-function kcsg_kp_loader_page( $url_info ) {
+function kcsg_kp_loader_page( $url_info, $id ) {
     list( $url, $raw_info ) = explode( "\n", $url_info, 2 );
     $info = (array) json_decode( $raw_info );
+    $gtmid = get_post_meta( $id, 'kcsg_kp_gtmid', true );
 
     /*
      * Escape URL for non-display, in in-line JS string (all of which
@@ -81,6 +82,16 @@ document.addEventListener('DOMContentLoaded', function () {
 
     page.src = '<?php echo $esc_url; ?>';
   }, false);
+<?php
+    if ( preg_match( '/^GTM-[A-Z0-9]+$/', $gtmid ) ) {
+?>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','<?php echo $gtmid; ?>');
+<?php
+    }
+?>
 </script>
 </head>
 <body>
@@ -105,7 +116,7 @@ while ( have_posts() ) {
 	if ( '' !== $content ) {
 	    if ( 'LOAD ' === substr( $content, 0, 5 ) ) {
 		// "Content" is cached final page URL
-		kcsg_kp_loader_page( substr( $content, 5 ) );
+		kcsg_kp_loader_page( substr( $content, 5 ), $id );
 	    } else {
 		// Content is raw page HTML
 		echo $content;
